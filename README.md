@@ -12,6 +12,7 @@
 ┃ ┃ ┗ 📜middlewares.js
 ┃ ┣ 📂controllers
 ┃ ┃ ┣ 📜employee-controller.js
+┃ ┃ ┣ 📜health-check-controller.js
 ┃ ┃ ┣ 📜request-controller.js
 ┃ ┃ ┗ 📜user-controller.js
 ┃ ┣ 📂middlewares
@@ -27,6 +28,7 @@
 ┃ ┣ 📂routes
 ┃ ┃ ┣ 📜api-routes.js
 ┃ ┃ ┣ 📜employee-routes.js
+┃ ┃ ┣ 📜health-check-routes.js
 ┃ ┃ ┣ 📜request-routes.js
 ┃ ┃ ┗ 📜user-routes.js
 ┃ ┣ 📂services
@@ -48,14 +50,16 @@
 ┣ 📜.env
 ┣ 📜.env-example
 ┣ 📜.gitignore
-┣ 📜eden-sky-collection.json
 ┣ 📜docker-compose.dev.yml
+┣ 📜eden-sky-collection.json
 ┣ 📜jest.config.mjs
 ┣ 📜knexfile.js
+┣ 📜LICENSE
 ┣ 📜package.json
 ┣ 📜pnpm-lock.yaml
 ┣ 📜README.md
 ┗ 📜server.js
+
 
 ```
 
