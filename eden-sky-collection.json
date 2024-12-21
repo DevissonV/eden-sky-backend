@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4654c2a2-c671-4161-8c29-a589788ffa10",
+		"_postman_id": "4fcfbff6-f968-4427-b0e2-d021268648ad",
 		"name": "EdenSky-Backend-API",
 		"description": "API collection for EdenSky Backend endpoints",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -512,6 +512,49 @@
 								"api",
 								"users",
 								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test",
+			"item": [
+				{
+					"name": "test-response-success",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/health-checks/test-response-success",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"health-checks",
+								"test-response-success"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test-response-error",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/health-checks/test-response-error",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"health-checks",
+								"test-response-error"
 							]
 						}
 					},
