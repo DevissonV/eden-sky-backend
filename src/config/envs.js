@@ -9,14 +9,20 @@ const envVarsSchema = object({
   DB_PASSWORD: string().required(),
   DB_NAME: string().required(),
   NODE_ENV: string()
-    .oneOf(['development', 'production']) 
+    .oneOf(['development', 'production'])
     .required()
     .default("development"),
-  JWT_SECRET: string().required("JWT_SECRET is required").min(16, "JWT_SECRET must be at least 16 characters"),
+  JWT_SECRET: string()
+    .required("JWT_SECRET is required")
+    .min(16, "JWT_SECRET must be at least 16 characters"),
+  JWT_TIME_EXPIRES: string().required("JWT_TIME_EXPIRES is required"),
+  ROLE_ADMIN: string().required("ROLE_ADMIN is required"),
+  ROLE_EMPLOYEE: string().required("ROLE_EMPLOYEE is required"), 
 }).noUnknown();
 
-
-export const envs = envVarsSchema.validateSync(process.env, {
-  abortEarly: false, 
-  stripUnknown: true, 
-});
+export const envs = {
+  ...envVarsSchema.validateSync(process.env, {
+    abortEarly: false,
+    stripUnknown: true,
+  }),
+};
