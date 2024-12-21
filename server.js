@@ -1,11 +1,14 @@
 import express from 'express';
+import cors from 'cors';
 import { envs } from './src/config/envs.js';
-import { applyMiddlewares } from './src/config/middlewares.js';
+import { corsOptions } from './src/config/cors-options.js';
 import apiRoutes from './src/routes/api-routes.js';
 
 const app = express();
 
-applyMiddlewares(app);
+app.use(cors(corsOptions));
+
+app.use(express.json());
 
 app.use('/api', apiRoutes);
 
@@ -18,4 +21,3 @@ app.listen(envs.APP_PORT, () => {
 });
 
 export default app;
-

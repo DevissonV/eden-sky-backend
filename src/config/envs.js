@@ -18,6 +18,7 @@ const envVarsSchema = object({
   JWT_TIME_EXPIRES: string().required("JWT_TIME_EXPIRES is required"),
   ROLE_ADMIN: string().required("ROLE_ADMIN is required"),
   ROLE_EMPLOYEE: string().required("ROLE_EMPLOYEE is required"), 
+  CORS_ORIGINS: string().required("CORS_ORIGINS is required"),
 }).noUnknown();
 
 export const envs = {

@@ -7,9 +7,9 @@
 ┃ ┗ 📜Dockerfile.dev
 ┣ 📂src
 ┃ ┣ 📂config
+┃ ┃ ┣ 📜cors-options.js
 ┃ ┃ ┣ 📜database.js
-┃ ┃ ┣ 📜envs.js
-┃ ┃ ┗ 📜middlewares.js
+┃ ┃ ┗ 📜envs.js
 ┃ ┣ 📂controllers
 ┃ ┃ ┣ 📜employee-controller.js
 ┃ ┃ ┣ 📜health-check-controller.js
@@ -59,7 +59,6 @@
 ┣ 📜pnpm-lock.yaml
 ┣ 📜README.md
 ┗ 📜server.js
-
 
 ```
 
