@@ -1,0 +1,599 @@
+{
+	"info": {
+		"_postman_id": "4fcfbff6-f968-4427-b0e2-d021268648ad",
+		"name": "EdenSky-Backend-API",
+		"description": "API collection for EdenSky Backend endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10141207"
+	},
+	"item": [
+		{
+			"name": "Employee",
+			"item": [
+				{
+					"name": "get-all-employees",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/employees/get-employees?limit=3&page=1&minSalary=1000&name=Devisson",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"get-employees"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "3"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "minSalary",
+									"value": "1000"
+								},
+								{
+									"key": "name",
+									"value": "Devisson"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-employee-by-ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/employees/get-employee/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"get-employee",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-employee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Devisson Vasquez\",\n  \"hire_date\": \"2023-01-01\",\n  \"salary\": 1000\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/employees/create-employee",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"create-employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-employee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Jane Doe\",\n  \"hire_date\": \"2023-02-01\",\n  \"salary\": 60000\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/employees/update-employee/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"update-employee",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-employee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/employees/delete-employee/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"delete-employee",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Request",
+			"item": [
+				{
+					"name": "get-all-requests",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/requests/get-requests?limit=2&page=1&code=REQ003",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"requests",
+								"get-requests"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "code",
+									"value": "REQ003"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-request-by-ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/requests/get-request/7",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"requests",
+								"get-request",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"REQ003\",\n  \"description\": \"Sample Request\",\n  \"summary\": \"Summary of the request\",\n  \"employee_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/requests/create-request",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"requests",
+								"create-request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"REQ002\",\n  \"description\": \"Updated Request\",\n  \"summary\": \"Updated summary\",\n  \"employee_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{url}}/api/requests/update-request/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"requests",
+								"update-request",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/requests/delete-request/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"requests",
+								"delete-request",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"securepassword123\",\r\n  \"role\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/users/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Save bearer token\", () => {\r",
+									"    const { data: { token } } = pm.response.json();\r",
+									"    pm.collectionVariables.set('TOKEN', token);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"securepassword123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/users/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/users/delete",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test",
+			"item": [
+				{
+					"name": "test-response-success",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/health-checks/test-response-success",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"health-checks",
+								"test-response-success"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test-response-error",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/health-checks/test-response-error",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"health-checks",
+								"test-response-error"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "TOKEN",
+			"value": ""
+		}
+	]
+}

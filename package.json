@@ -1,0 +1,34 @@
+{
+  "name": "eden-sky-backend",
+  "version": "1.0.0",
+  "description": "Backend for Eden Sky project",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "cross-env node src/server.js",
+    "dev": "nodemon src/server.js",
+    "start-docker": "npm run migrations && npm run dev",
+    "migrations": "npx knex migrate:latest",
+    "test": "cross-env NODE_ENV=development NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.1",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "knex": "^3.1.0",
+    "pg": "^8.13.1",
+    "yup": "^1.5.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.26.0",
+    "babel-jest": "^29.7.0",
+    "cross-env": "^7.0.3",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.7",
+    "supertest": "^7.0.0"
+  }
+}
