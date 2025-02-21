@@ -7,6 +7,6 @@ const router = Router();
 
 router.post('/register', userController.register);
 router.post('/login', userController.login);
-router.delete('/delete', authenticate, authorize([envs.ROLE_ADMIN]), userController.delete);
+router.delete('/', authenticate, authorize([envs.ROLE_ADMIN]), userController.delete);
 
 export default router;
