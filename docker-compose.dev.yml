@@ -37,7 +37,8 @@ services:
       - DB_NAME=${DB_NAME}
       - JWT_SECRET=${JWT_SECRET}
     volumes:
-      - .:/var/www
+      - .:/var/www/app
+      - /var/www/app/node_modules
 
 volumes:
   postgres_data:
