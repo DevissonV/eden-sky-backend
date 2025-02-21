@@ -1,7 +1,17 @@
 import requestService from '../services/request-service.js';
 import { successResponse, errorResponse } from '../../../core/utils/response/response.js';
 
+/**
+ * Controller for managing requests.
+ * @class RequestController
+ */
 class RequestController {
+  /**
+   * Retrieves all requests with optional filters.
+   * @param {import("express").Request} req - Express request object.
+   * @param {import("express").Response} res - Express response object.
+   * @returns {Promise<void>} Response with the list of requests.
+   */
   async getAll(req, res) {
     try {
       const { limit, page, code, description, summary, employee_id } = req.query;
@@ -17,6 +27,12 @@ class RequestController {
     }
   }
 
+  /**
+   * Retrieves a request by ID.
+   * @param {import("express").Request} req - Express request object containing the request ID.
+   * @param {import("express").Response} res - Express response object.
+   * @returns {Promise<void>} Response with request data or an error if not found.
+   */
   async getById(req, res) {
     try {
       const { id } = req.params;
@@ -30,6 +46,12 @@ class RequestController {
     }
   }
 
+  /**
+   * Creates a new request.
+   * @param {import("express").Request} req - Express request object containing request data in the body.
+   * @param {import("express").Response} res - Express response object.
+   * @returns {Promise<void>} Response with the created request.
+   */
   async create(req, res) {
     try {
       const newRequest = await requestService.createRequest(req.body);
@@ -39,6 +61,12 @@ class RequestController {
     }
   }
 
+  /**
+   * Updates an existing request.
+   * @param {import("express").Request} req - Express request object containing the request ID and update data.
+   * @param {import("express").Response} res - Express response object.
+   * @returns {Promise<void>} Response with the updated request data.
+   */
   async update(req, res) {
     try {
       const { id } = req.params;
@@ -49,6 +77,12 @@ class RequestController {
     }
   }
 
+  /**
+   * Deletes a request by ID.
+   * @param {import("express").Request} req - Express request object containing the request ID.
+   * @param {import("express").Response} res - Express response object.
+   * @returns {Promise<void>} Response indicating that the request was successfully deleted.
+   */
   async delete(req, res) {
     try {
       const { id } = req.params;

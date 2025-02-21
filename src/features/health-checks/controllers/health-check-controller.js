@@ -1,5 +1,11 @@
 import { successResponse, errorResponse } from '../../../core/utils/response/response.js';
 
+/**
+ * Simulates a successful response for testing purposes.
+ * @param {import("express").Request} req - Express request object.
+ * @param {import("express").Response} res - Express response object.
+ * @returns {void} Sends a successful response with mock employee data.
+ */
 export const testResponseSuccess = (req, res) => {
   const data = [
     {
@@ -30,6 +36,12 @@ export const testResponseSuccess = (req, res) => {
   return successResponse(res, response, 200, true);
 };
 
+/**
+ * Simulates an error response for testing purposes.
+ * @param {import("express").Request} req - Express request object.
+ * @param {import("express").Response} res - Express response object.
+ * @returns {void} Sends an error response with a predefined message.
+ */
 export const testResponseError = (req, res) => {
   const message = "Simulated error for testing for request";
   return errorResponse(res, message, 400);

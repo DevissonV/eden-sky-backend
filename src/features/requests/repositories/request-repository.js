@@ -1,6 +1,18 @@
 import db from '../../../core/config/database.js';
 
+/**
+ * Repository for managing request data in the database.
+ * @class RequestRepository
+ */
 class RequestRepository {
+  /**
+   * Retrieves all requests with optional filters and pagination.
+   * @param {Object} options - Query options.
+   * @param {number} options.limit - Number of records per page.
+   * @param {number} options.offset - Offset for pagination.
+   * @param {Object} options.filters - Filters for querying requests.
+   * @returns {Promise<Object>} Paginated list of requests and total count.
+   */
   async getAll({ limit, offset, filters }) {
     const query = db('requests').select(
       'requests.id',
@@ -56,6 +68,11 @@ class RequestRepository {
     };
   }
 
+  /**
+   * Retrieves a request by ID.
+   * @param {number} id - Request ID.
+   * @returns {Promise<Object|null>} Request data or null if not found.
+   */
   async getById(id) {
     return await db('requests')
       .select(
@@ -73,14 +90,30 @@ class RequestRepository {
       .first();
   }
 
+  /**
+   * Creates a new request.
+   * @param {Object} requestData - Request data to be inserted.
+   * @returns {Promise<Object>} The created request data.
+   */
   async create(requestData) {
     return await db('requests').insert(requestData).returning('*');
   }
 
+  /**
+   * Updates an existing request.
+   * @param {number} id - Request ID.
+   * @param {Object} requestData - Updated request data.
+   * @returns {Promise<Object>} Updated request data.
+   */
   async update(id, requestData) {
     return await db('requests').where({ id }).update(requestData).returning('*');
   }
 
+  /**
+   * Deletes a request by ID.
+   * @param {number} id - Request ID.
+   * @returns {Promise<number>} Number of deleted rows.
+   */
   async delete(id) {
     return await db('requests').where({ id }).del();
   }

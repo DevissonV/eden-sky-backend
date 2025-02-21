@@ -1,6 +1,10 @@
 import "dotenv/config";
 import { object, number, string } from "yup";
 
+/**
+ * Schema for environment variables validation and default values.
+ * @constant {Object} envVarsSchema
+ */
 const envVarsSchema = object({
   APP_PORT: number().required().default(3000),
   DB_HOST: string().required().default("localhost"),
@@ -21,6 +25,10 @@ const envVarsSchema = object({
   CORS_ORIGINS: string().required("CORS_ORIGINS is required"),
 }).noUnknown();
 
+/**
+ * Validated environment variables.
+ * @constant {Object} envs
+ */
 export const envs = {
   ...envVarsSchema.validateSync(process.env, {
     abortEarly: false,

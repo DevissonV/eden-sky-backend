@@ -1,7 +1,17 @@
 import employeeService from '../services/employee-service.js';
 import { successResponse, errorResponse } from '../../../core/utils/response/response.js';
 
+/**
+ * Controller for managing employees.
+ * @class EmployeeController
+ */
 class EmployeeController {
+  /**
+   * Retrieves all employees with optional filters.
+   * @param {import("express").Request} req - Express request object.
+   * @param {import("express").Response} res - Express response object.
+   * @returns {Promise<void>} Response with the list of employees.
+   */
   async getAll(req, res) {
     try {
       const { limit, page, name, minSalary, hireDate } = req.query;
@@ -17,6 +27,12 @@ class EmployeeController {
     }
   }
 
+  /**
+   * Retrieves an employee by ID.
+   * @param {import("express").Request} req - Express request object containing the employee ID.
+   * @param {import("express").Response} res - Express response object.
+   * @returns {Promise<void>} Response with employee data or an error if not found.
+   */
   async getById(req, res) {
     try {
       const { id } = req.params;
@@ -30,6 +46,12 @@ class EmployeeController {
     }
   }
 
+  /**
+   * Creates a new employee.
+   * @param {import("express").Request} req - Express request object containing employee data in the body.
+   * @param {import("express").Response} res - Express response object.
+   * @returns {Promise<void>} Response with the created employee.
+   */
   async create(req, res) {
     try {
       const newEmployee = await employeeService.createEmployee(req.body);
@@ -39,6 +61,12 @@ class EmployeeController {
     }
   }
 
+  /**
+   * Updates an employee's data.
+   * @param {import("express").Request} req - Express request object containing the employee ID and update data.
+   * @param {import("express").Response} res - Express response object.
+   * @returns {Promise<void>} Response with the updated employee data.
+   */
   async update(req, res) {
     try {
       const { id } = req.params;
@@ -49,6 +77,12 @@ class EmployeeController {
     }
   }
 
+  /**
+   * Deletes an employee by ID.
+   * @param {import("express").Request} req - Express request object containing the employee ID.
+   * @param {import("express").Response} res - Express response object.
+   * @returns {Promise<void>} Response indicating that the employee was successfully deleted.
+   */
   async delete(req, res) {
     try {
       const { id } = req.params;
