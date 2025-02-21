@@ -6,42 +6,64 @@
 ┣ 📂.docker
 ┃ ┗ 📜Dockerfile.dev
 ┣ 📂src
-┃ ┣ 📂config
-┃ ┃ ┣ 📜cors-options.js
-┃ ┃ ┣ 📜database.js
-┃ ┃ ┗ 📜envs.js
-┃ ┣ 📂controllers
-┃ ┃ ┣ 📜employee-controller.js
-┃ ┃ ┣ 📜health-check-controller.js
-┃ ┃ ┣ 📜request-controller.js
-┃ ┃ ┗ 📜user-controller.js
-┃ ┣ 📂middlewares
-┃ ┃ ┗ 📜auth-middleware.js
-┃ ┣ 📂migrations
-┃ ┃ ┣ 📜20241205225059_create_employees_table.js
-┃ ┃ ┣ 📜20241205225101_create_requests_table.js
-┃ ┃ ┗ 📜20241206173037_create_users_table.js
-┃ ┣ 📂repositories
-┃ ┃ ┣ 📜employee-repository.js
-┃ ┃ ┣ 📜request-repository.js
-┃ ┃ ┗ 📜user-repository.js
+┃ ┣ 📂core
+┃ ┃ ┣ 📂config
+┃ ┃ ┃ ┣ 📜cors-options.js
+┃ ┃ ┃ ┣ 📜database.js
+┃ ┃ ┃ ┗ 📜envs.js
+┃ ┃ ┣ 📂middlewares
+┃ ┃ ┃ ┗ 📜auth-middleware.js
+┃ ┃ ┗ 📂utils
+┃ ┃   ┣ 📂response
+┃ ┃   ┃ ┗ 📜response.js
+┃ ┃   ┗ 📂validations
+┃ ┃     ┗ 📜pagination-validation.js
+┃ ┣ 📂features
+┃ ┃ ┣ 📂employees
+┃ ┃ ┃ ┣ 📂api
+┃ ┃ ┃ ┃ ┗ 📜employee-routes.js
+┃ ┃ ┃ ┣ 📂controllers
+┃ ┃ ┃ ┃ ┗ 📜employee-controller.js
+┃ ┃ ┃ ┣ 📂migrations
+┃ ┃ ┃ ┃ ┗ 📜20241205225059_create_employees_table.js
+┃ ┃ ┃ ┣ 📂repositories
+┃ ┃ ┃ ┃ ┗ 📜employee-repository.js
+┃ ┃ ┃ ┣ 📂services
+┃ ┃ ┃ ┃ ┗ 📜employee-service.js
+┃ ┃ ┃ ┗ 📂validations
+┃ ┃ ┃   ┗ 📜employee-validation.js
+┃ ┃ ┣ 📂health-checks
+┃ ┃ ┃ ┣ 📂api
+┃ ┃ ┃ ┃ ┗ 📜health-check-routes.js
+┃ ┃ ┃ ┗ 📂controllers
+┃ ┃ ┃   ┗ 📜health-check-controller.js
+┃ ┃ ┣ 📂requests
+┃ ┃ ┃ ┣ 📂api
+┃ ┃ ┃ ┃ ┗ 📜request-routes.js
+┃ ┃ ┃ ┣ 📂controllers
+┃ ┃ ┃ ┃ ┗ 📜request-controller.js
+┃ ┃ ┃ ┣ 📂migrations
+┃ ┃ ┃ ┃ ┗ 📜20241205225101_create_requests_table.js
+┃ ┃ ┃ ┣ 📂repositories
+┃ ┃ ┃ ┃ ┗ 📜request-repository.js
+┃ ┃ ┃ ┣ 📂services
+┃ ┃ ┃ ┃ ┗ 📜request-service.js
+┃ ┃ ┃ ┗ 📂validations
+┃ ┃ ┃   ┗ 📜request-validation.js
+┃ ┃ ┗ 📂users
+┃ ┃   ┣ 📂api
+┃ ┃   ┃ ┗ 📜user-routes.js
+┃ ┃   ┣ 📂controllers
+┃ ┃   ┃ ┗ 📜user-controller.js
+┃ ┃   ┣ 📂migrations
+┃ ┃   ┃ ┗ 📜20241206173037_create_users_table.js
+┃ ┃   ┣ 📂repositories
+┃ ┃   ┃ ┗ 📜user-repository.js
+┃ ┃   ┗ 📂services
+┃ ┃     ┗ 📜user-service.js
 ┃ ┣ 📂routes
-┃ ┃ ┣ 📜api-routes.js
-┃ ┃ ┣ 📜employee-routes.js
-┃ ┃ ┣ 📜health-check-routes.js
-┃ ┃ ┣ 📜request-routes.js
-┃ ┃ ┗ 📜user-routes.js
-┃ ┣ 📂services
-┃ ┃ ┣ 📜employee-service.js
-┃ ┃ ┣ 📜request-service.js
-┃ ┃ ┗ 📜user-service.js
-┃ ┗ 📂utils
-┃   ┣ 📂response
-┃   ┃ ┗ 📜response.js
-┃   ┗ 📂validations
-┃     ┣ 📜employee-validation.js
-┃     ┣ 📜pagination-validation.js
-┃     ┗ 📜request-validation.js
+┃ ┃ ┗ 📜api-routes.js
+┃ ┗ 📜server.js
 ┣ 📂tests
 ┃ ┣ 📜auth.spec.js
 ┃ ┣ 📜employees.spec.js
@@ -56,9 +78,7 @@
 ┣ 📜knexfile.js
 ┣ 📜LICENSE
 ┣ 📜package.json
-┣ 📜pnpm-lock.yaml
-┣ 📜README.md
-┗ 📜server.js
+┗ 📜README.md
 
 ```
 
