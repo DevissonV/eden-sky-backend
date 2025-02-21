@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import userRepository from '../repositories/user-repository.js';
 import { envs } from '../../../core/config/envs.js';
@@ -9,7 +9,9 @@ class UserService {
     if (existingUser) {
       throw new Error('Username already exists');
     }
+
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const newUser = { username, password: hashedPassword, role };
     return userRepository.create(newUser);
   }

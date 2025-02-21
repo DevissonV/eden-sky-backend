@@ -5,7 +5,9 @@ class UserController {
   async register(req, res) {
     try {
       const { username, password, role } = req.body;
+
       const user = await userService.register(username, password, role);
+      
       return successResponse(res, user, 201);
     } catch (error) {
       return errorResponse(res, error.message, 400);

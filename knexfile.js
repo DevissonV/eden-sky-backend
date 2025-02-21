@@ -11,7 +11,11 @@ export default {
       port: envs.DB_PORT,
     },
     migrations: {
-      directory: "./src/features/*/migrations",
+      directory: [
+        "./src/features/employees/migrations",
+        "./src/features/requests/migrations",
+        "./src/features/users/migrations"
+      ]
     },
     seeds: {
       directory: "./src/seeds",
@@ -31,7 +35,11 @@ export default {
       port: envs.DB_PORT,
     },
     migrations: {
-      directory: "./src/features/*/migrations",
+      directory: [
+        "./src/features/employees/migrations",
+        "./src/features/requests/migrations",
+        "./src/features/users/migrations"
+      ]
     },
     seeds: {
       directory: "./src/seeds",
