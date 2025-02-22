@@ -1,6 +1,6 @@
 import requestService from '../services/request-service.js';
 import { responseHandler } from '../../../core/utils/response/response-handler.js';
-import { getSuccessMessage } from '../../../core/utils/response/ApiResponseTemplates.js';
+import { getSuccessMessage } from '../../../core/utils/response/api-response-templates.js';
 
 /**
  * Controller for managing requests.
