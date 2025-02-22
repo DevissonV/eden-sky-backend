@@ -42,7 +42,7 @@ class UserService {
     const token = jwt.sign(
       { id: user.id, username: user.username, role: user.role },
       envs.JWT_SECRET,
-      { expiresIn: envs.JWT_TIME_EXPIRES }
+      { expiresIn: envs.JWT_TIME_EXPIRES },
     );
     return { token, role: user.role };
   }

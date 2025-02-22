@@ -2,7 +2,7 @@ import app from '../src/server.js';
 import request from 'supertest';
 
 describe('Employee API', () => {
-  let token; 
+  let token;
   let createdEmployeeId;
 
   beforeAll(async () => {
@@ -29,7 +29,7 @@ describe('Employee API', () => {
     expect(response.status).toBe(201);
     expect(response.body.data[0]).toHaveProperty('name', employeeData.name);
 
-    createdEmployeeId = response.body.data[0].id; 
+    createdEmployeeId = response.body.data[0].id;
   });
 
   it('Get all employees', async () => {

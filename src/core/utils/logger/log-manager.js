@@ -12,7 +12,7 @@ const deleteOldLogs = () => {
   if (!fs.existsSync(logsDir)) return;
 
   const files = fs.readdirSync(logsDir);
-  const fileInfoArray = files.map(file => {
+  const fileInfoArray = files.map((file) => {
     const filePath = path.join(logsDir, file);
     const stats = fs.statSync(filePath);
     return { file, filePath, mtimeMs: stats.mtimeMs };
@@ -25,7 +25,6 @@ const deleteOldLogs = () => {
     getLogger().info(`Deleted old log file: ${fileInfoArray[i].file}`);
   }
 };
-
 /**
  * Schedules log management (deletion of old logs and log rotation)
  * using a cron job. Defaults to every Sunday at midnight, unless

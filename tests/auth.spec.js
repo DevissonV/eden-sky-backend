@@ -2,14 +2,14 @@ import app from '../src/server.js';
 import request from 'supertest';
 
 describe('Authentication API', () => {
-
   it('Register, login, and delete the user', async () => {
-    
-    const registerResponse = await request(app).post('/api/users/register').send({
-      username: 'UserPruebaUnit',
-      password: 'securepassword123',
-      role: 'admin',
-    });
+    const registerResponse = await request(app)
+      .post('/api/users/register')
+      .send({
+        username: 'UserPruebaUnit',
+        password: 'securepassword123',
+        role: 'admin',
+      });
     expect(registerResponse.status).toBe(201);
 
     const loginResponse = await request(app).post('/api/users/login').send({

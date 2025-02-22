@@ -16,7 +16,10 @@ class RequestService {
    * @returns {Promise<Object>} Paginated list of requests.
    */
   async getAllRequests({ limit, page, filters }) {
-    const { limit: validatedLimit, page: validatedPage } = validatePagination({ limit, page });
+    const { limit: validatedLimit, page: validatedPage } = validatePagination({
+      limit,
+      page,
+    });
     const offset = (validatedPage - 1) * validatedLimit;
     const { data, total } = await requestRepository.getAll({
       limit: validatedLimit,

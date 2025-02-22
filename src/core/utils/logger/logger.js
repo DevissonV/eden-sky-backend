@@ -27,34 +27,34 @@ const generateLogFilePath = () => {
  * - pino/file for writing logs to a file
  * @returns {Object} Logger instance.
  */
- const createLogger = () => {
-    const logFilePath = generateLogFilePath();
-  
-    return pino({
-      level: 'info',
-      transport: {
-        targets: [
-          {
-            level: 'info',
-            target: 'pino-pretty',
-            options: {
-              colorize: true,
-              translateTime: 'yyyy-MM-dd HH:mm:ss',
-              ignore: 'pid,hostname'
-            }
+const createLogger = () => {
+  const logFilePath = generateLogFilePath();
+
+  return pino({
+    level: 'info',
+    transport: {
+      targets: [
+        {
+          level: 'info',
+          target: 'pino-pretty',
+          options: {
+            colorize: true,
+            translateTime: 'yyyy-MM-dd HH:mm:ss',
+            ignore: 'pid,hostname',
           },
-          {
-            level: 'info',
-            target: 'pino/file',
-            options: {
-              destination: logFilePath,
-              mkdir: true
-            }
-          }
-        ]
-      }
-    });
-  };
+        },
+        {
+          level: 'info',
+          target: 'pino/file',
+          options: {
+            destination: logFilePath,
+            mkdir: true,
+          },
+        },
+      ],
+    },
+  });
+};
 
 /**
  * Returns the current logger instance.

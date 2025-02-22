@@ -1,6 +1,6 @@
-import employeeService from "../services/employee-service.js";
-import { responseHandler } from "../../../core/utils/response/response-handler.js";
-import { getSuccessMessage } from "../../../core/utils/response/ApiResponseTemplates.js";
+import employeeService from '../services/employee-service.js';
+import { responseHandler } from '../../../core/utils/response/response-handler.js';
+import { getSuccessMessage } from '../../../core/utils/response/ApiResponseTemplates.js';
 
 /**
  * Controller for managing employees.
@@ -16,7 +16,13 @@ class EmployeeController {
   async getAll(req, res, next) {
     employeeService
       .getAll(req.query)
-      .then((employees) => responseHandler.success(res, employees, getSuccessMessage("GET_ALL", "Employees")))
+      .then((employees) =>
+        responseHandler.success(
+          res,
+          employees,
+          getSuccessMessage('GET_ALL', 'Employees'),
+        ),
+      )
       .catch(next);
   }
 
@@ -29,7 +35,13 @@ class EmployeeController {
   async getById(req, res, next) {
     employeeService
       .getById(req.params.id)
-      .then((employee) => responseHandler.success(res, employee, getSuccessMessage("GET_ONE", "Employee")))
+      .then((employee) =>
+        responseHandler.success(
+          res,
+          employee,
+          getSuccessMessage('GET_ONE', 'Employee'),
+        ),
+      )
       .catch(next);
   }
 
@@ -42,7 +54,14 @@ class EmployeeController {
   async create(req, res, next) {
     employeeService
       .create(req.body)
-      .then((newEmployee) => responseHandler.success(res, newEmployee, getSuccessMessage("CREATE", "Employee"), 201))
+      .then((newEmployee) =>
+        responseHandler.success(
+          res,
+          newEmployee,
+          getSuccessMessage('CREATE', 'Employee'),
+          201,
+        ),
+      )
       .catch(next);
   }
 
@@ -55,7 +74,13 @@ class EmployeeController {
   async update(req, res, next) {
     employeeService
       .update(req.params.id, req.body)
-      .then((updatedEmployee) => responseHandler.success(res, updatedEmployee, getSuccessMessage("UPDATE", "Employee")))
+      .then((updatedEmployee) =>
+        responseHandler.success(
+          res,
+          updatedEmployee,
+          getSuccessMessage('UPDATE', 'Employee'),
+        ),
+      )
       .catch(next);
   }
 
@@ -68,7 +93,13 @@ class EmployeeController {
   async delete(req, res, next) {
     employeeService
       .delete(req.params.id)
-      .then(() => responseHandler.success(res, {}, getSuccessMessage("DELETE", "Employee")))
+      .then(() =>
+        responseHandler.success(
+          res,
+          {},
+          getSuccessMessage('DELETE', 'Employee'),
+        ),
+      )
       .catch(next);
   }
 }

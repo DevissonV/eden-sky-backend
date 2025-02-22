@@ -1,5 +1,8 @@
 import requestService from '../services/request-service.js';
-import { successResponse, errorResponse } from '../../../core/utils/response/response.js';
+import {
+  successResponse,
+  errorResponse,
+} from '../../../core/utils/response/response.js';
 
 /**
  * Controller for managing requests.
@@ -14,7 +17,8 @@ class RequestController {
    */
   async getAll(req, res) {
     try {
-      const { limit, page, code, description, summary, employee_id } = req.query;
+      const { limit, page, code, description, summary, employee_id } =
+        req.query;
       const filters = { code, description, summary, employee_id };
       const paginatedRequests = await requestService.getAllRequests({
         limit: parseInt(limit, 10) || 10,
@@ -23,7 +27,9 @@ class RequestController {
       });
       return successResponse(res, paginatedRequests, 200, true);
     } catch (error) {
-      return res.status(500).json({ status: false, code: 500, error: error.message });
+      return res
+        .status(500)
+        .json({ status: false, code: 500, error: error.message });
     }
   }
 

@@ -1,5 +1,8 @@
 import userService from '../services/user-service.js';
-import { successResponse, errorResponse } from '../../../core/utils/response/response.js';
+import {
+  successResponse,
+  errorResponse,
+} from '../../../core/utils/response/response.js';
 
 /**
  * Controller for managing user operations.

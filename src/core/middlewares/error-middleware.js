@@ -12,9 +12,11 @@ import { getLogger } from '../utils/logger/logger.js';
  */
 const errorMiddleware = (err, req, res, next) => {
   const statusCode = err.statusCode || 500;
-  
-  getLogger().error(`Error: ${err.message} | Status: ${statusCode} | Path: ${req.originalUrl}`);
-  
+
+  getLogger().error(
+    `Error: ${err.message} | Status: ${statusCode} | Path: ${req.originalUrl}`,
+  );
+
   return responseHandler.error(res, err.message, statusCode);
 };
 

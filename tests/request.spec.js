@@ -2,7 +2,7 @@ import app from '../src/server.js';
 import request from 'supertest';
 
 describe('Request API', () => {
-  let token; 
+  let token;
   let createdRequestId;
   let employeeId = 2;
 
@@ -66,7 +66,10 @@ describe('Request API', () => {
       .send(updatedData);
 
     expect(response.status).toBe(200);
-    expect(response.body.data[0]).toHaveProperty('description', updatedData.description);
+    expect(response.body.data[0]).toHaveProperty(
+      'description',
+      updatedData.description,
+    );
   });
 
   it('Delete a request', async () => {

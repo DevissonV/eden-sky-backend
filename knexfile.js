@@ -1,8 +1,8 @@
-import { envs } from "./src/core/config/envs.js";
+import { envs } from './src/core/config/envs.js';
 
 export default {
   development: {
-    client: "pg",
+    client: 'pg',
     connection: {
       host: envs.DB_HOST,
       user: envs.DB_USER,
@@ -12,13 +12,13 @@ export default {
     },
     migrations: {
       directory: [
-        "./src/features/employees/migrations",
-        "./src/features/requests/migrations",
-        "./src/features/users/migrations"
-      ]
+        './src/features/employees/migrations',
+        './src/features/requests/migrations',
+        './src/features/users/migrations',
+      ],
     },
     seeds: {
-      directory: "./src/seeds",
+      directory: './src/seeds',
     },
     pool: {
       min: 2,
@@ -26,7 +26,7 @@ export default {
     },
   },
   production: {
-    client: "pg",
+    client: 'pg',
     connection: {
       host: envs.DB_HOST,
       user: envs.DB_USER,
@@ -36,13 +36,13 @@ export default {
     },
     migrations: {
       directory: [
-        "./src/features/employees/migrations",
-        "./src/features/requests/migrations",
-        "./src/features/users/migrations"
-      ]
+        './src/features/employees/migrations',
+        './src/features/requests/migrations',
+        './src/features/users/migrations',
+      ],
     },
     seeds: {
-      directory: "./src/seeds",
+      directory: './src/seeds',
     },
     pool: {
       min: 2,

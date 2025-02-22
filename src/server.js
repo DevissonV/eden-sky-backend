@@ -16,7 +16,9 @@ app.use('/api', apiRoutes);
 
 app.use((req, res) => {
   logger.warn(`Route not found: ${req.originalUrl}`);
-  res.status(404).json({ status: false, code: 404, message: 'Route not found' });
+  res
+    .status(404)
+    .json({ status: false, code: 404, message: 'Route not found' });
 });
 
 app.use(errorMiddleware);

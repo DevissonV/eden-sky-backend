@@ -1,5 +1,8 @@
 import { Router } from 'express';
-import { testResponseSuccess, testResponseError } from '../controllers/health-check-controller.js';
+import {
+  testResponseSuccess,
+  testResponseError,
+} from '../controllers/health-check-controller.js';
 
 const router = Router();
 

@@ -1,4 +1,4 @@
-import db from "../../../core/config/database.js";
+import db from '../../../core/config/database.js';
 
 /**
  * Repository for managing employee data in the database.
@@ -9,7 +9,7 @@ class EmployeeRepository {
   #tableName;
 
   constructor() {
-    this.#tableName = "employees";
+    this.#tableName = 'employees';
   }
 
   /**
@@ -19,14 +19,14 @@ class EmployeeRepository {
    */
   async getAll(criteria) {
     const query = db(this.#tableName);
-    
+
     criteria.applyFilters(query);
     criteria.applyPagination(query);
 
     const countQuery = db(this.#tableName);
     criteria.applyFilters(countQuery);
-    
-    const totalResult = await countQuery.count("* as count").first();
+
+    const totalResult = await countQuery.count('* as count').first();
     const total = totalResult ? parseInt(totalResult.count, 10) : 0;
 
     const data = await query;
@@ -54,7 +54,7 @@ class EmployeeRepository {
    * @returns {Promise<Object>} Created employee data.
    */
   async create(employee) {
-    return await db(this.#tableName).insert(employee).returning("*");
+    return await db(this.#tableName).insert(employee).returning('*');
   }
 
   /**
@@ -64,7 +64,10 @@ class EmployeeRepository {
    * @returns {Promise<Object>} Updated employee data.
    */
   async update(id, employee) {
-    return await db(this.#tableName).where({ id }).update(employee).returning("*");
+    return await db(this.#tableName)
+      .where({ id })
+      .update(employee)
+      .returning('*');
   }
 
   /**

@@ -1,8 +1,8 @@
-import GenericCriteria from "../../../core/filters/criteria/generic-criteria.js";
-import employeeRepository from "../repositories/employee-repository.js";
-import { validateEmployee } from "../validations/employee-validation.js";
-import { AppError } from "../../../core/utils/response/error-handler.js";
-import { getLogger } from "../../../core/utils/logger/logger.js";
+import GenericCriteria from '../../../core/filters/criteria/generic-criteria.js';
+import employeeRepository from '../repositories/employee-repository.js';
+import { validateEmployee } from '../validations/employee-validation.js';
+import { AppError } from '../../../core/utils/response/error-handler.js';
+import { getLogger } from '../../../core/utils/logger/logger.js';
 
 /**
  * Service class for handling employee-related business logic.
@@ -16,11 +16,15 @@ class EmployeeService {
    */
   async getAll(params) {
     try {
-      const criteria = new GenericCriteria(params, ["name", "minSalary", "hireDate"]);
+      const criteria = new GenericCriteria(params, [
+        'name',
+        'minSalary',
+        'hireDate',
+      ]);
       return await employeeRepository.getAll(criteria);
     } catch (error) {
       getLogger().error(`Error getAll employees: ${error.message}`);
-      throw new AppError("Database error while retrieving employees", 500);
+      throw new AppError('Database error while retrieving employees', 500);
     }
   }
 
@@ -32,13 +36,15 @@ class EmployeeService {
   async getById(id) {
     try {
       const employee = await employeeRepository.getById(id);
-      if (!employee) throw new AppError(`Employee with ID ${id} not found`, 404);
+      if (!employee)
+        throw new AppError(`Employee with ID ${id} not found`, 404);
       return employee;
     } catch (error) {
       getLogger().error(`Error getById employee: ${error.message}`);
       throw new AppError(
-        error.message || "Database error while retrieving employee", 
-        error.statusCode || 500);
+        error.message || 'Database error while retrieving employee',
+        error.statusCode || 500,
+      );
     }
   }
 
@@ -54,8 +60,9 @@ class EmployeeService {
     } catch (error) {
       getLogger().error(`Error create employee: ${error.message}`);
       throw new AppError(
-        error.message || "Database error while creating employee", 
-        error.statusCode || 500);
+        error.message || 'Database error while creating employee',
+        error.statusCode || 500,
+      );
     }
   }
 
@@ -73,8 +80,9 @@ class EmployeeService {
     } catch (error) {
       getLogger().error(`Error update employee: ${error.message}`);
       throw new AppError(
-        error.message || "Database error while updating employee", 
-        error.statusCode || 500);
+        error.message || 'Database error while updating employee',
+        error.statusCode || 500,
+      );
     }
   }
 
@@ -90,8 +98,9 @@ class EmployeeService {
     } catch (error) {
       getLogger().error(`Error delete employee: ${error.message}`);
       throw new AppError(
-        error.message || "Database error while deleting employee", 
-        error.statusCode || 500);
+        error.message || 'Database error while deleting employee',
+        error.statusCode || 500,
+      );
     }
   }
 }
