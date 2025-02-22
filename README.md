@@ -5,16 +5,29 @@
 ```
 ┣ 📂.docker
 ┃ ┗ 📜Dockerfile.dev
+┣ 📂logs
+┃ ┣ 📜app-log-old.log
+┃ ┗ 📜app-log-new.log
 ┣ 📂src
 ┃ ┣ 📂core
 ┃ ┃ ┣ 📂config
 ┃ ┃ ┃ ┣ 📜cors-options.js
 ┃ ┃ ┃ ┣ 📜database.js
 ┃ ┃ ┃ ┗ 📜envs.js
+┃ ┃ ┣ 📂filters
+┃ ┃ ┃ ┗ 📂criteria
+┃ ┃ ┃   ┗ 📜generic-criteria.js
 ┃ ┃ ┣ 📂middlewares
-┃ ┃ ┃ ┗ 📜auth-middleware.js
+┃ ┃ ┃ ┣ 📜auth-middleware.js
+┃ ┃ ┃ ┗ 📜error-middleware.js
 ┃ ┃ ┗ 📂utils
+┃ ┃   ┣ 📂logger
+┃ ┃   ┃ ┣ 📜log-manager.js
+┃ ┃   ┃ ┗ 📜logger.js
 ┃ ┃   ┣ 📂response
+┃ ┃   ┃ ┣ 📜api-response-templates.js
+┃ ┃   ┃ ┣ 📜error-handler.js
+┃ ┃   ┃ ┣ 📜response-handler.js
 ┃ ┃   ┃ ┗ 📜response.js
 ┃ ┃   ┗ 📂validations
 ┃ ┃     ┗ 📜pagination-validation.js
@@ -59,8 +72,10 @@
 ┃ ┃   ┃ ┗ 📜20241206173037_create_users_table.js
 ┃ ┃   ┣ 📂repositories
 ┃ ┃   ┃ ┗ 📜user-repository.js
-┃ ┃   ┗ 📂services
-┃ ┃     ┗ 📜user-service.js
+┃ ┃   ┣ 📂services
+┃ ┃   ┃ ┗ 📜user-service.js
+┃ ┃   ┗ 📂validations
+┃ ┃     ┗ 📜user-validation.js
 ┃ ┣ 📂routes
 ┃ ┃ ┗ 📜api-routes.js
 ┃ ┗ 📜server.js
@@ -71,7 +86,9 @@
 ┣ 📜.dockerignore
 ┣ 📜.env
 ┣ 📜.env-example
+┣ 📜.eslintrc.json
 ┣ 📜.gitignore
+┣ 📜.prettierrc
 ┣ 📜docker-compose.dev.yml
 ┣ 📜eden-sky-collection.json
 ┣ 📜jest.config.mjs
@@ -79,6 +96,7 @@
 ┣ 📜LICENSE
 ┣ 📜package.json
 ┗ 📜README.md
+
 
 ```
 
