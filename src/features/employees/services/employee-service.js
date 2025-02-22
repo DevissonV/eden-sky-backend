@@ -1,5 +1,8 @@
-import employeeRepository from '../repositories/employee-repository.js';
-import { validateEmployee } from '../validations/employee-validation.js';
+import GenericCriteria from "../../../core/filters/criteria/generic-criteria.js";
+import employeeRepository from "../repositories/employee-repository.js";
+import { validateEmployee } from "../validations/employee-validation.js";
+import { AppError } from "../../../core/utils/response/error-handler.js";
+import { getLogger } from "../../../core/utils/logger/logger.js";
 
 /**
  * Service class for handling employee-related business logic.
@@ -7,74 +10,89 @@ import { validateEmployee } from '../validations/employee-validation.js';
  */
 class EmployeeService {
   /**
-   * Retrieves all employees with pagination and filters.
-   * @param {Object} options - Query options.
-   * @param {number} options.limit - Number of employees per page.
-   * @param {number} options.page - Page number.
-   * @param {Object} options.filters - Filtering options.
-   * @returns {Promise<Object>} Paginated list of employees.
-   * @throws {Error} If limit or page is less than 1.
+   * Retrieves all employees.
+   * @param {Object} params - Query parameters.
+   * @returns {Promise<Object[]>} List of employees.
    */
-  async getAllEmployees({ limit, page, filters }) {
-    if (limit < 1 || page < 1) {
-      throw new Error('Limit and page must be positive integers');
+  async getAll(params) {
+    try {
+      const criteria = new GenericCriteria(params, ["name", "minSalary", "hireDate"]);
+      return await employeeRepository.getAll(criteria);
+    } catch (error) {
+      getLogger().error(`Error getAll employees: ${error.message}`);
+      throw new AppError("Database error while retrieving employees", 500);
     }
-    return await employeeRepository.getAll({ limit, page, filters });
   }
 
   /**
    * Retrieves an employee by ID.
    * @param {number} id - Employee ID.
    * @returns {Promise<Object>} Employee data.
-   * @throws {Error} If the employee is not found.
    */
-  async getEmployeeById(id) {
-    const employee = await employeeRepository.getById(id);
-    if (!employee) {
-      throw new Error(`Employee with ID ${id} not found`);
+  async getById(id) {
+    try {
+      const employee = await employeeRepository.getById(id);
+      if (!employee) throw new AppError(`Employee with ID ${id} not found`, 404);
+      return employee;
+    } catch (error) {
+      getLogger().error(`Error getById employee: ${error.message}`);
+      throw new AppError(
+        error.message || "Database error while retrieving employee", 
+        error.statusCode || 500);
     }
-    return employee;
   }
 
   /**
    * Creates a new employee.
-   * @param {Object} employeeData - Employee details.
+   * @param {Object} data - Employee details.
    * @returns {Promise<Object>} Created employee data.
-   * @throws {Error} If validation fails.
    */
-  async createEmployee(employeeData) {
-    validateEmployee(employeeData);
-    return await employeeRepository.create(employeeData);
+  async create(data) {
+    try {
+      validateEmployee(data);
+      return await employeeRepository.create(data);
+    } catch (error) {
+      getLogger().error(`Error create employee: ${error.message}`);
+      throw new AppError(
+        error.message || "Database error while creating employee", 
+        error.statusCode || 500);
+    }
   }
 
   /**
    * Updates an existing employee.
    * @param {number} id - Employee ID.
-   * @param {Object} employeeData - Updated employee details.
+   * @param {Object} data - Updated employee details.
    * @returns {Promise<Object>} Updated employee data.
-   * @throws {Error} If the employee does not exist or validation fails.
    */
-  async updateEmployee(id, employeeData) {
-    const existingEmployee = await employeeRepository.getById(id);
-    if (!existingEmployee) {
-      throw new Error(`Employee with ID ${id} not found`);
+  async update(id, data) {
+    try {
+      const employee = await this.getById(id);
+      validateEmployee(data);
+      return await employeeRepository.update(employee.id, data);
+    } catch (error) {
+      getLogger().error(`Error update employee: ${error.message}`);
+      throw new AppError(
+        error.message || "Database error while updating employee", 
+        error.statusCode || 500);
     }
-    validateEmployee(employeeData);
-    return await employeeRepository.update(id, employeeData);
   }
 
   /**
    * Deletes an employee by ID.
    * @param {number} id - Employee ID.
    * @returns {Promise<void>} Resolves when the deletion is complete.
-   * @throws {Error} If the employee does not exist.
    */
-  async deleteEmployee(id) {
-    const existingEmployee = await employeeRepository.getById(id);
-    if (!existingEmployee) {
-      throw new Error(`Employee with ID ${id} not found`);
+  async delete(id) {
+    try {
+      const employee = await this.getById(id);
+      return await employeeRepository.delete(employee.id);
+    } catch (error) {
+      getLogger().error(`Error delete employee: ${error.message}`);
+      throw new AppError(
+        error.message || "Database error while deleting employee", 
+        error.statusCode || 500);
     }
-    await employeeRepository.delete(id);
   }
 }
 

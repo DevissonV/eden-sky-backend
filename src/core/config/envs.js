@@ -6,7 +6,7 @@ import { object, number, string } from "yup";
  * @constant {Object} envVarsSchema
  */
 const envVarsSchema = object({
-  APP_PORT: number().required().default(3000),
+  APP_PORT: number().required().default(5000),
   DB_HOST: string().required().default("localhost"),
   DB_PORT: number().required().default(5432),
   DB_USER: string().required(),
@@ -23,6 +23,7 @@ const envVarsSchema = object({
   ROLE_ADMIN: string().required("ROLE_ADMIN is required"),
   ROLE_EMPLOYEE: string().required("ROLE_EMPLOYEE is required"), 
   CORS_ORIGINS: string().required("CORS_ORIGINS is required"),
+  LOG_CLEANUP_SCHEDULE: string().required("LOG_CLEANUP_SCHEDULE is required").default("0 0 * * 0"),
 }).noUnknown();
 
 /**

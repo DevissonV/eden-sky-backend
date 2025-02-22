@@ -3,21 +3,28 @@ import cors from 'cors';
 import { envs } from './core/config/envs.js';
 import { corsOptions } from './core/config/cors-options.js';
 import apiRoutes from './routes/api-routes.js';
+import errorMiddleware from './core/middlewares/error-middleware.js';
+import { getLogger } from './core/utils/logger/logger.js';
+import { scheduleLogManagement } from './core/utils/logger/log-manager.js';
 
+const logger = getLogger();
 const app = express();
 
 app.use(cors(corsOptions));
-
 app.use(express.json());
-
 app.use('/api', apiRoutes);
 
 app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+  logger.warn(`Route not found: ${req.originalUrl}`);
+  res.status(404).json({ status: false, code: 404, message: 'Route not found' });
 });
 
+app.use(errorMiddleware);
+
 app.listen(envs.APP_PORT, () => {
-  console.log(`Server running on port ${envs.APP_PORT}`);
+  logger.info(`Server running on port ${envs.APP_PORT}`);
 });
+
+scheduleLogManagement();
 
 export default app;
