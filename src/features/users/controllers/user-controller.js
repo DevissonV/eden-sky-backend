@@ -1,60 +1,60 @@
 import userService from '../services/user-service.js';
-import {
-  successResponse,
-  errorResponse,
-} from '../../../core/utils/response/response.js';
+import { responseHandler } from '../../../core/utils/response/response-handler.js';
+import { getSuccessMessage } from '../../../core/utils/response/ApiResponseTemplates.js';
 
 /**
- * Controller for managing user operations.
+ * Controller for managing users.
  * @class UserController
  */
 class UserController {
   /**
    * Registers a new user.
-   * @param {import("express").Request} req - Express request object containing username, password, and role.
+   * @param {import("express").Request} req - Express request object.
    * @param {import("express").Response} res - Express response object.
-   * @returns {Promise<void>} Response with the registered user data.
+   * @param {import("express").NextFunction} next - Express next middleware function.
    */
-  async register(req, res) {
-    try {
-      const { username, password, role } = req.body;
-      const user = await userService.register(username, password, role);
-      return successResponse(res, user, 201);
-    } catch (error) {
-      return errorResponse(res, error.message, 400);
-    }
+  async register(req, res, next) {
+    userService
+      .register(req.body)
+      .then((newUser) =>
+        responseHandler.success(
+          res,
+          newUser,
+          getSuccessMessage('CREATE', 'User'),
+          201,
+        ),
+      )
+      .catch(next);
   }
 
   /**
-   * Authenticates a user and returns a token.
-   * @param {import("express").Request} req - Express request object containing username and password.
+   * Logs in a user and returns a token.
+   * @param {import("express").Request} req - Express request object.
    * @param {import("express").Response} res - Express response object.
-   * @returns {Promise<void>} Response with authentication token and user role.
+   * @param {import("express").NextFunction} next - Express next middleware function.
    */
-  async login(req, res) {
-    try {
-      const { username, password } = req.body;
-      const { token, role } = await userService.login(username, password);
-      return successResponse(res, { token, role });
-    } catch (error) {
-      return errorResponse(res, error.message, 401);
-    }
+  async login(req, res, next) {
+    userService
+      .login(req.body)
+      .then((authData) =>
+        responseHandler.success(res, authData, `User logged in successfully`),
+      )
+      .catch(next);
   }
 
   /**
    * Deletes a user by username.
-   * @param {import("express").Request} req - Express request object containing the username to be deleted.
+   * @param {import("express").Request} req - Express request object.
    * @param {import("express").Response} res - Express response object.
-   * @returns {Promise<void>} Response indicating the deletion of the user.
+   * @param {import("express").NextFunction} next - Express next middleware function.
    */
-  async delete(req, res) {
-    try {
-      const { username } = req.body;
-      await userService.deleteByUsername(username);
-      return successResponse(res, { message: `User ${username} deleted` });
-    } catch (error) {
-      return errorResponse(res, error.message, 400);
-    }
+  async delete(req, res, next) {
+    userService
+      .deleteByUsername(req.body.username)
+      .then(() =>
+        responseHandler.success(res, {}, getSuccessMessage('DELETE', 'User')),
+      )
+      .catch(next);
   }
 }
 
