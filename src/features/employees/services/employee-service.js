@@ -16,11 +16,11 @@ class EmployeeService {
    */
   async getAll(params) {
     try {
-      const criteria = new GenericCriteria(params, [
-        'name',
-        'minSalary',
-        'hireDate',
-      ]);
+      const criteria = new GenericCriteria(params, {
+        name: { column: 'name', operator: 'like' },
+        minSalary: { column: 'salary', operator: '>=' },
+        hireDate: { column: 'hire_date', operator: '=' },
+      });
       return await employeeRepository.getAll(criteria);
     } catch (error) {
       getLogger().error(`Error getAll employees: ${error.message}`);

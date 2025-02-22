@@ -1,8 +1,6 @@
 import requestService from '../services/request-service.js';
-import {
-  successResponse,
-  errorResponse,
-} from '../../../core/utils/response/response.js';
+import { responseHandler } from '../../../core/utils/response/response-handler.js';
+import { getSuccessMessage } from '../../../core/utils/response/ApiResponseTemplates.js';
 
 /**
  * Controller for managing requests.
@@ -10,93 +8,99 @@ import {
  */
 class RequestController {
   /**
-   * Retrieves all requests with optional filters.
+   * Retrieves all requests.
    * @param {import("express").Request} req - Express request object.
    * @param {import("express").Response} res - Express response object.
-   * @returns {Promise<void>} Response with the list of requests.
+   * @param {import("express").NextFunction} next - Express next middleware function.
    */
-  async getAll(req, res) {
-    try {
-      const { limit, page, code, description, summary, employee_id } =
-        req.query;
-      const filters = { code, description, summary, employee_id };
-      const paginatedRequests = await requestService.getAllRequests({
-        limit: parseInt(limit, 10) || 10,
-        page: parseInt(page, 10) || 1,
-        filters,
-      });
-      return successResponse(res, paginatedRequests, 200, true);
-    } catch (error) {
-      return res
-        .status(500)
-        .json({ status: false, code: 500, error: error.message });
-    }
+  async getAll(req, res, next) {
+    requestService
+      .getAll(req.query)
+      .then((requests) =>
+        responseHandler.success(
+          res,
+          requests,
+          getSuccessMessage('GET_ALL', 'Requests'),
+        ),
+      )
+      .catch(next);
   }
 
   /**
    * Retrieves a request by ID.
    * @param {import("express").Request} req - Express request object containing the request ID.
    * @param {import("express").Response} res - Express response object.
-   * @returns {Promise<void>} Response with request data or an error if not found.
+   * @param {import("express").NextFunction} next - Express next middleware function.
    */
-  async getById(req, res) {
-    try {
-      const { id } = req.params;
-      const request = await requestService.getRequestById(id);
-      if (!request) {
-        return errorResponse(res, 'Request not found', 404);
-      }
-      return successResponse(res, request);
-    } catch (error) {
-      return errorResponse(res, error.message);
-    }
+  async getById(req, res, next) {
+    requestService
+      .getById(req.params.id)
+      .then((request) =>
+        responseHandler.success(
+          res,
+          request,
+          getSuccessMessage('GET_ONE', 'Request'),
+        ),
+      )
+      .catch(next);
   }
 
   /**
    * Creates a new request.
    * @param {import("express").Request} req - Express request object containing request data in the body.
    * @param {import("express").Response} res - Express response object.
-   * @returns {Promise<void>} Response with the created request.
+   * @param {import("express").NextFunction} next - Express next middleware function.
    */
-  async create(req, res) {
-    try {
-      const newRequest = await requestService.createRequest(req.body);
-      return successResponse(res, newRequest, 201);
-    } catch (error) {
-      return errorResponse(res, error.message);
-    }
+  async create(req, res, next) {
+    requestService
+      .create(req.body)
+      .then((newRequest) =>
+        responseHandler.success(
+          res,
+          newRequest,
+          getSuccessMessage('CREATE', 'Request'),
+          201,
+        ),
+      )
+      .catch(next);
   }
 
   /**
    * Updates an existing request.
    * @param {import("express").Request} req - Express request object containing the request ID and update data.
    * @param {import("express").Response} res - Express response object.
-   * @returns {Promise<void>} Response with the updated request data.
+   * @param {import("express").NextFunction} next - Express next middleware function.
    */
-  async update(req, res) {
-    try {
-      const { id } = req.params;
-      const updatedRequest = await requestService.updateRequest(id, req.body);
-      return successResponse(res, updatedRequest);
-    } catch (error) {
-      return errorResponse(res, error.message);
-    }
+  async update(req, res, next) {
+    requestService
+      .update(req.params.id, req.body)
+      .then((updatedRequest) =>
+        responseHandler.success(
+          res,
+          updatedRequest,
+          getSuccessMessage('UPDATE', 'Request'),
+        ),
+      )
+      .catch(next);
   }
 
   /**
    * Deletes a request by ID.
    * @param {import("express").Request} req - Express request object containing the request ID.
    * @param {import("express").Response} res - Express response object.
-   * @returns {Promise<void>} Response indicating that the request was successfully deleted.
+   * @param {import("express").NextFunction} next - Express next middleware function.
    */
-  async delete(req, res) {
-    try {
-      const { id } = req.params;
-      await requestService.deleteRequest(id);
-      return successResponse(res, { message: 'Request deleted successfully' });
-    } catch (error) {
-      return errorResponse(res, error.message);
-    }
+  async delete(req, res, next) {
+    requestService
+      .delete(req.params.id)
+      .then(() =>
+        responseHandler.success(
+          res,
+          {},
+          getSuccessMessage('DELETE', 'Request'),
+        ),
+      )
+      .catch(next);
   }
 }
 

@@ -1,6 +1,8 @@
+import GenericCriteria from '../../../core/filters/criteria/generic-criteria.js';
 import requestRepository from '../repositories/request-repository.js';
 import { validateRequest } from '../validations/request-validation.js';
-import { validatePagination } from '../../../core/utils/validations/pagination-validation.js';
+import { AppError } from '../../../core/utils/response/error-handler.js';
+import { getLogger } from '../../../core/utils/logger/logger.js';
 
 /**
  * Service class for handling request-related business logic.
@@ -8,86 +10,98 @@ import { validatePagination } from '../../../core/utils/validations/pagination-v
  */
 class RequestService {
   /**
-   * Retrieves all requests with pagination and filters.
-   * @param {Object} options - Query options.
-   * @param {number} options.limit - Number of requests per page.
-   * @param {number} options.page - Page number.
-   * @param {Object} options.filters - Filtering options.
+   * Retrieves all requests with filtering and pagination.
+   * @param {Object} params - Query parameters.
    * @returns {Promise<Object>} Paginated list of requests.
    */
-  async getAllRequests({ limit, page, filters }) {
-    const { limit: validatedLimit, page: validatedPage } = validatePagination({
-      limit,
-      page,
-    });
-    const offset = (validatedPage - 1) * validatedLimit;
-    const { data, total } = await requestRepository.getAll({
-      limit: validatedLimit,
-      offset,
-      filters,
-    });
-    const totalPages = Math.ceil(total / validatedLimit);
-    return {
-      data,
-      total,
-      page: validatedPage,
-      totalPages,
-    };
+  async getAll(params) {
+    try {
+      const criteria = new GenericCriteria(params, {
+        code: { column: 'code', operator: 'like' },
+        description: { column: 'description', operator: 'like' },
+        summary: { column: 'summary', operator: 'like' },
+        employee_id: { column: 'employee_id', operator: '=' },
+      });
+      return await requestRepository.getAll(criteria);
+    } catch (error) {
+      getLogger().error(`Error getAll requests: ${error.message}`);
+      throw new AppError('Database error while retrieving requests', 500);
+    }
   }
 
   /**
    * Retrieves a request by ID.
    * @param {number} id - Request ID.
    * @returns {Promise<Object>} Request data.
-   * @throws {Error} If the request is not found.
    */
-  async getRequestById(id) {
-    const request = await requestRepository.getById(id);
-    if (!request) {
-      throw new Error(`Request with ID ${id} not found`);
+  async getById(id) {
+    try {
+      const request = await requestRepository.getById(id);
+      if (!request) throw new AppError(`Request with ID ${id} not found`, 404);
+      return request;
+    } catch (error) {
+      getLogger().error(`Error getById request: ${error.message}`);
+      throw new AppError(
+        error.message || 'Database error while retrieving request',
+        error.statusCode || 500,
+      );
     }
-    return request;
   }
 
   /**
    * Creates a new request.
-   * @param {Object} requestData - Request details.
+   * @param {Object} data - Request details.
    * @returns {Promise<Object>} Created request data.
-   * @throws {Error} If validation fails.
    */
-  async createRequest(requestData) {
-    validateRequest(requestData);
-    return await requestRepository.create(requestData);
+  async create(data) {
+    try {
+      validateRequest(data);
+      return await requestRepository.create(data);
+    } catch (error) {
+      getLogger().error(`Error create request: ${error.message}`);
+      throw new AppError(
+        error.message || 'Database error while creating request',
+        error.statusCode || 500,
+      );
+    }
   }
 
   /**
    * Updates an existing request.
    * @param {number} id - Request ID.
-   * @param {Object} requestData - Updated request details.
+   * @param {Object} data - Updated request details.
    * @returns {Promise<Object>} Updated request data.
-   * @throws {Error} If the request does not exist or validation fails.
    */
-  async updateRequest(id, requestData) {
-    const existingRequest = await requestRepository.getById(id);
-    if (!existingRequest) {
-      throw new Error(`Request with ID ${id} not found`);
+  async update(id, data) {
+    try {
+      const request = await this.getById(id);
+      validateRequest(data);
+      return await requestRepository.update(request.id, data);
+    } catch (error) {
+      getLogger().error(`Error update request: ${error.message}`);
+      throw new AppError(
+        error.message || 'Database error while updating request',
+        error.statusCode || 500,
+      );
     }
-    validateRequest(requestData);
-    return await requestRepository.update(id, requestData);
   }
 
   /**
    * Deletes a request by ID.
    * @param {number} id - Request ID.
    * @returns {Promise<void>} Resolves when the deletion is complete.
-   * @throws {Error} If the request does not exist.
    */
-  async deleteRequest(id) {
-    const existingRequest = await requestRepository.getById(id);
-    if (!existingRequest) {
-      throw new Error(`Request with ID ${id} not found`);
+  async delete(id) {
+    try {
+      const request = await this.getById(id);
+      return await requestRepository.delete(request.id);
+    } catch (error) {
+      getLogger().error(`Error delete request: ${error.message}`);
+      throw new AppError(
+        error.message || 'Database error while deleting request',
+        error.statusCode || 500,
+      );
     }
-    await requestRepository.delete(id);
   }
 }
 
