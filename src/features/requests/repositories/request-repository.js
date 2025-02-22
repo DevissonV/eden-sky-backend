@@ -18,7 +18,7 @@ class RequestRepository {
    * @returns {Promise<Object>} Paginated list of requests.
    */
   async getAll(criteria) {
-    const baseQuery = db(this.#tableName).select('*');\
+    const baseQuery = db(this.#tableName).select('*');
 
     criteria.applyFilters(baseQuery);
 
