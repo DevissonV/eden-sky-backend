@@ -1,4 +1,4 @@
-import { responseHandler } from '../../../core/utils/response/response-handler.js';
+import { responseHandler } from '#core/utils/response/response-handler.js';
 
 /**
  * Simulates a successful response for testing purposes.

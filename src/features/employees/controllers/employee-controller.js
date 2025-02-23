@@ -1,4 +1,4 @@
-import BaseController from '../../../core/base/base-controller.js';
+import BaseController from '#core/base/base-controller.js';
 import employeeService from '../services/employee-service.js';
 
 /**

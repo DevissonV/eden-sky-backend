@@ -1,8 +1,8 @@
-import GenericCriteria from '../../../core/filters/criteria/generic-criteria.js';
+import { AppError } from '#core/utils/response/error-handler.js';
+import { getLogger } from '#core/utils/logger/logger.js';
+import GenericCriteria from '#core/filters/criteria/generic-criteria.js';
 import requestRepository from '../repositories/request-repository.js';
 import { validateRequest } from '../validations/request-validation.js';
-import { AppError } from '../../../core/utils/response/error-handler.js';
-import { getLogger } from '../../../core/utils/logger/logger.js';
 
 /**
  * Service class for handling request-related business logic.

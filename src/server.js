@@ -1,11 +1,11 @@
 import express from 'express';
 import cors from 'cors';
-import { envs } from './core/config/envs.js';
-import { corsOptions } from './core/config/cors-options.js';
+import { envs } from '#core/config/envs.js';
+import { corsOptions } from '#core/config/cors-options.js';
+import { getLogger } from '#core/utils/logger/logger.js';
+import { scheduleLogManagement } from '#core/utils/logger/log-manager.js';
+import errorMiddleware from '#core/middlewares/error-middleware.js';
 import apiRoutes from './routes/api-routes.js';
-import errorMiddleware from './core/middlewares/error-middleware.js';
-import { getLogger } from './core/utils/logger/logger.js';
-import { scheduleLogManagement } from './core/utils/logger/log-manager.js';
 
 const logger = getLogger();
 const app = express();
