@@ -16,13 +16,13 @@ describe('Employee API', () => {
 
   it('Create a new employee', async () => {
     const employeeData = {
-      name: 'John Doe',
-      hire_date: '2023-01-01',
+      name: 'Devisson',
+      hire_date: '2025-02-01',
       salary: 5000,
     };
 
     const response = await request(app)
-      .post('/api/employees/create-employee')
+      .post('/api/employees/')
       .set('Authorization', `Bearer ${token}`)
       .send(employeeData);
 
@@ -34,7 +34,7 @@ describe('Employee API', () => {
 
   it('Get all employees', async () => {
     const response = await request(app)
-      .get('/api/employees/get-employees')
+      .get('/api/employees/')
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
@@ -44,7 +44,7 @@ describe('Employee API', () => {
 
   it('Get a single employee by ID', async () => {
     const response = await request(app)
-      .get(`/api/employees/get-employee/${createdEmployeeId}`)
+      .get(`/api/employees/${createdEmployeeId}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
@@ -54,12 +54,12 @@ describe('Employee API', () => {
   it('Update an employee', async () => {
     const updatedData = {
       name: 'Dev',
-      hire_date: '2024-01-01',
+      hire_date: '2025-03-01',
       salary: 3000,
     };
 
     const response = await request(app)
-      .put(`/api/employees/update-employee/${createdEmployeeId}`)
+      .patch(`/api/employees/${createdEmployeeId}`)
       .set('Authorization', `Bearer ${token}`)
       .send(updatedData);
 
@@ -69,7 +69,7 @@ describe('Employee API', () => {
 
   it('Delete an employee', async () => {
     const response = await request(app)
-      .delete(`/api/employees/delete-employee/${createdEmployeeId}`)
+      .delete(`/api/employees/${createdEmployeeId}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);

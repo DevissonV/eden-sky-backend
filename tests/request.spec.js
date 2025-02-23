@@ -23,7 +23,7 @@ describe('Request API', () => {
     };
 
     const response = await request(app)
-      .post('/api/requests/create-request')
+      .post('/api/requests/')
       .set('Authorization', `Bearer ${token}`)
       .send(requestData);
 
@@ -35,7 +35,7 @@ describe('Request API', () => {
 
   it('Get all requests', async () => {
     const response = await request(app)
-      .get('/api/requests/get-requests')
+      .get('/api/requests')
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
@@ -45,7 +45,7 @@ describe('Request API', () => {
 
   it('Get a single request by ID', async () => {
     const response = await request(app)
-      .get(`/api/requests/get-request/${createdRequestId}`)
+      .get(`/api/requests/${createdRequestId}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
@@ -61,7 +61,7 @@ describe('Request API', () => {
     };
 
     const response = await request(app)
-      .put(`/api/requests/update-request/${createdRequestId}`)
+      .patch(`/api/requests/${createdRequestId}`)
       .set('Authorization', `Bearer ${token}`)
       .send(updatedData);
 
@@ -74,7 +74,7 @@ describe('Request API', () => {
 
   it('Delete a request', async () => {
     const response = await request(app)
-      .delete(`/api/requests/delete-request/${createdRequestId}`)
+      .delete(`/api/requests/${createdRequestId}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
