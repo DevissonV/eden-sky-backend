@@ -1,10 +1,10 @@
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import { envs } from '#core/config/envs.js';
+import { AppError } from '#core/utils/response/error-handler.js';
+import { getLogger } from '#core/utils/logger/logger.js';
 import userRepository from '../repositories/user-repository.js';
 import { validateUser } from '../validations/user-validation.js';
-import { AppError } from '../../../core/utils/response/error-handler.js';
-import { getLogger } from '../../../core/utils/logger/logger.js';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { envs } from '../../../core/config/envs.js';
 
 /**
  * Service class for managing user-related business logic.

@@ -1,4 +1,4 @@
-import { envs } from './src/core/config/envs.js';
+import { envs } from '#core/config/envs.js';
 
 export default {
   development: {

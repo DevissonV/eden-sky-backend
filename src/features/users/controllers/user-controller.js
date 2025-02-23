@@ -1,6 +1,6 @@
+import { responseHandler } from '#core/utils/response/response-handler.js';
+import { getSuccessMessage } from '#core/utils/response/api-response-templates.js';
 import userService from '../services/user-service.js';
-import { responseHandler } from '../../../core/utils/response/response-handler.js';
-import { getSuccessMessage } from '../../../core/utils/response/api-response-templates.js';
 
 /**
  * Controller for managing users.

@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import employeeRoutes from '../features/employees/api/employee-routes.js';
-import requestRoutes from '../features/requests/api/request-routes.js';
-import userRoutes from '../features/users/api/user-routes.js';
-import healthCheckRoutes from '../features/health-checks/api/health-check-routes.js';
+import healthCheckRoutes from '#features/health-checks/api/health-check-routes.js';
+import userRoutes from '#features/users/api/user-routes.js';
+import employeeRoutes from '#features/employees/api/employee-routes.js';
+import requestRoutes from '#features/requests/api/request-routes.js';
 
 const apiRoutes = Router();
 

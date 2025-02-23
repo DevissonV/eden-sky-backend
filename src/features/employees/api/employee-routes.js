@@ -1,10 +1,7 @@
 import { Router } from 'express';
+import { envs } from '#core/config/envs.js';
+import { authenticate, authorize } from '#core/middlewares/auth-middleware.js';
 import employeeController from '../controllers/employee-controller.js';
-import {
-  authenticate,
-  authorize,
-} from '../../../core/middlewares/auth-middleware.js';
-import { envs } from '../../../core/config/envs.js';
 
 const router = Router();
 

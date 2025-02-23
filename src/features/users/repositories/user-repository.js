@@ -1,4 +1,4 @@
-import db from '../../../core/config/database.js';
+import db from '#core/config/database.js';
 
 /**
  * Repository for managing user data in the database.

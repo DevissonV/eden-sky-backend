@@ -1,4 +1,4 @@
-import BaseRepository from '../../../core/base/base-repository.js';
+import BaseRepository from '#core/base/base-repository.js';
 
 /**
  * Repository for managing employee data.

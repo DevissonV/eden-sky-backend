@@ -1,6 +1,6 @@
 import Joi from 'joi';
-import { envs } from '../../../core/config/envs.js';
-import { AppError } from '../../../core/utils/response/error-handler.js';
+import { envs } from '#core/config/envs.js';
+import { AppError } from '#core/utils/response/error-handler.js';
 
 /**
  * Schema for user validation.
