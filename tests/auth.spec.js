@@ -21,7 +21,7 @@ describe('Authentication API', () => {
 
     const token = loginResponse.body.data.token;
     const deleteResponse = await request(app)
-      .delete('/api/users/delete')
+      .delete('/api/users/')
       .set('Authorization', `Bearer ${token}`)
       .send({
         username: 'UserPruebaUnit',
