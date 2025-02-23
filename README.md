@@ -6,10 +6,12 @@
 ┣ 📂.docker
 ┃ ┗ 📜Dockerfile.dev
 ┣ 📂logs
-┃ ┣ 📜app-log-old.log
-┃ ┗ 📜app-log-new.log
+┃ ┣ 📜app-2025-02-22_19-40.log
+┃ ┗ 📜app-2025-02-22_19-41.log
 ┣ 📂src
 ┃ ┣ 📂core
+┃ ┃ ┣ 📂base
+┃ ┃ ┃ ┗ 📜base-controller.js
 ┃ ┃ ┣ 📂config
 ┃ ┃ ┃ ┣ 📜cors-options.js
 ┃ ┃ ┃ ┣ 📜database.js
@@ -96,7 +98,6 @@
 ┣ 📜LICENSE
 ┣ 📜package.json
 ┗ 📜README.md
-
 
 ```
 
