@@ -7,7 +7,9 @@
 ┃ ┗ 📜Dockerfile.dev
 ┣ 📂logs
 ┃ ┣ 📜app-old.log
-┃ ┗ 📜app-new.log
+┃ ┣ 📜app-new.log
+┣ 📂scripts
+┃ ┗ 📜generate-module.js
 ┣ 📂src
 ┃ ┣ 📂core
 ┃ ┃ ┣ 📂base
@@ -88,9 +90,12 @@
 ┃ ┃ ┗ 📜api-routes.js
 ┃ ┗ 📜server.js
 ┣ 📂tests
-┃ ┣ 📜auth.spec.js
-┃ ┣ 📜employees.spec.js
-┃ ┗ 📜request.spec.js
+┃ ┣ 📂auth
+┃ ┃ ┗ 📜auth.spec.js
+┃ ┣ 📂employees
+┃ ┃ ┗ 📜employees.spec.js
+┃ ┗ 📂request
+┃   ┗ 📜request.spec.js
 ┣ 📜.dockerignore
 ┣ 📜.env
 ┣ 📜.env-example
