@@ -270,8 +270,17 @@ export default new ${capitalize(moduleName)}Service();`,
   [`validations/${moduleName}-validation.js`]: `import Joi from 'joi';
 import { AppError } from '#core/utils/response/error-handler.js';
 
+/**
+ * Schema definition for ${moduleName} validation.
+ * @constant {Joi.ObjectSchema}
+ */
 const ${moduleName}Schema = Joi.object({ name: Joi.string().max(50).required() });
 
+/**
+ * Validates ${moduleName} data against the schema.
+ * @param {Object} ${moduleName}Data - ${moduleName} data to be validated.
+ * @throws {Error} If validation fails.
+ */
 export const validate${capitalize(moduleName)} = (data) => {
   const { error } = ${moduleName}Schema.validate(data);
   if (error) throw new AppError(error.details[0].message, 400);
@@ -281,8 +290,19 @@ export const validate${capitalize(moduleName)} = (data) => {
   [`validations/${moduleName}-criteria-validation.js`]: `import Joi from 'joi';
 import { AppError } from '#core/utils/response/error-handler.js';
 
+/**
+ * Schema definition for validating ${moduleName} search criteria.
+ * @constant {Joi.ObjectSchema}
+ */
 const ${moduleName}CriteriaSchema = Joi.object({ name: Joi.string().max(50).optional() });
 
+/**
+ * Validates the ${moduleName} search criteria using the defined schema.
+ *
+ * @param {Object} criteria - The search criteria object containing query parameters.
+ * @returns {Object} The validated and possibly transformed criteria.
+ * @throws {AppError} Throws an AppError with a 400 status code if validation fails.
+ */
 export const validate${capitalize(moduleName)}Criteria = (criteria) => {
   const { error, value } = ${moduleName}CriteriaSchema.validate(criteria);
   if (error) throw new AppError(error.details[0].message, 400);
