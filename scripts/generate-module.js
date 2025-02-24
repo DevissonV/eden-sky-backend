@@ -4,8 +4,54 @@ import { envs } from '#core/config/envs.js';
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
+const singularize = (word) => {
+  const irregularPlurals = {
+    children: 'child',
+    men: 'man',
+    women: 'woman',
+    people: 'person',
+    feet: 'foot',
+    mice: 'mouse',
+    geese: 'goose',
+    teeth: 'tooth',
+    criteria: 'criterion',
+    data: 'datum',
+  };
+
+  if (irregularPlurals[word]) {
+    return irregularPlurals[word];
+  }
+
+  if (word.match(/(.*)ies$/)) {
+    return word.replace(/ies$/, 'y');
+  }
+
+  if (word.match(/(.*)ves$/)) {
+    return word.replace(/ves$/, 'f');
+  }
+
+  if (word.match(/(.*)oes$/)) {
+    return word.replace(/oes$/, 'o');
+  }
+
+  if (
+    word.match(/(.*)ses$/) &&
+    !['addresses', 'series', 'species'].includes(word)
+  ) {
+    return word.replace(/es$/, '');
+  }
+
+  if (word.match(/(.*)s$/) && word.length > 3) {
+    return word.replace(/s$/, '');
+  }
+
+  return word;
+};
+
 const moduleName = process.argv[2];
-if (!moduleName) {
+const singularModuleName = singularize(moduleName);
+
+if (!singularModuleName) {
   console.error(
     'You must provide a module name. Example: node generate-module.js employee',
   );
@@ -45,10 +91,10 @@ const timestamp = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14);
 const migrationFileName = `${timestamp}_create_${moduleName}_table.js`;
 
 const files = {
-  [`api/${moduleName}-routes.js`]: `import { Router } from 'express';
+  [`api/${singularModuleName}-routes.js`]: `import { Router } from 'express';
 import { authenticate, authorize } from '#core/middlewares/auth-middleware.js';
 import { envs } from '#core/config/envs.js';
-import ${moduleName}Controller from '../controllers/${moduleName}-controller.js';
+import ${capitalize(singularModuleName)}Controller from '../controllers/${singularModuleName}-controller.js';
 
 const router = Router();
 
@@ -56,71 +102,71 @@ router.get(
   '/', 
   authenticate, 
   authorize([envs.ROLE_ADMIN]), 
-  ${moduleName}Controller.getAll
+  ${capitalize(singularModuleName)}Controller.getAll
 );
 router.get(
   '/:id', 
   authenticate, 
   authorize([envs.ROLE_ADMIN]), 
-  ${moduleName}Controller.getById
+  ${capitalize(singularModuleName)}Controller.getById
 );
 router.post(
   '/', 
   authenticate, 
   authorize([envs.ROLE_ADMIN]), 
-  ${moduleName}Controller.create
+  ${capitalize(singularModuleName)}Controller.create
 );
 router.patch(
   '/:id', 
   authenticate, 
   authorize([envs.ROLE_ADMIN]), 
-  ${moduleName}Controller.update
+  ${capitalize(singularModuleName)}Controller.update
 );
 router.delete(
   '/:id', authenticate, 
   authorize([envs.ROLE_ADMIN]), 
-  ${moduleName}Controller.delete
+  ${capitalize(singularModuleName)}Controller.delete
 );
 
 export default router;`,
 
-  [`controllers/${moduleName}-controller.js`]: `import BaseController from '#core/base/base-controller.js';
-import ${moduleName}Service from '../services/${moduleName}-service.js';
+  [`controllers/${singularModuleName}-controller.js`]: `import BaseController from '#core/base/base-controller.js';
+import ${capitalize(singularModuleName)}Service from '../services/${singularModuleName}-service.js';
 
 /**
- * Controller for managing ${moduleName}s.
- * @class ${capitalize(moduleName)}Controller
+ * Controller for managing ${moduleName}.
+ * @class ${capitalize(singularModuleName)}Controller
  * @extends BaseController
  */
-class ${capitalize(moduleName)}Controller extends BaseController {
+class ${capitalize(singularModuleName)}Controller extends BaseController {
   constructor() {
-    super(${moduleName}Service, '${capitalize(moduleName)}');
+    super(${capitalize(singularModuleName)}Service, '${capitalize(moduleName)}');
   }
 }
 
-export default new ${capitalize(moduleName)}Controller();`,
+export default new ${capitalize(singularModuleName)}Controller();`,
 
-  [`dto/${moduleName}-dto.js`]: `
+  [`dto/${singularModuleName}-dto.js`]: `
 /**
  * Transforms the validated ${moduleName} data into a DTO for creation.
  * @param {Object} data - The validated ${moduleName} data.
  * @returns {Object} A DTO containing only the necessary properties.
  */
-export const create${capitalize(moduleName)}Dto = (data) => data;
+export const create${capitalize(singularModuleName)}Dto = (data) => data;
 
 /**
  * Transforms the validated ${moduleName} data into a DTO for updating.
  * @param {Object} data - The validated ${moduleName} data.
  * @returns {Object} A DTO containing only the properties that can be updated.
  */
-export const update${capitalize(moduleName)}Dto = (data) => data;
+export const update${capitalize(singularModuleName)}Dto = (data) => data;
 
 /**
  * Transforms the validated search criteria into a DTO for filtering ${moduleName}.
  * @param {Object} params - The validated query parameters.
  * @returns {Object} A DTO with the standardized search criteria.
  */
-export const search${capitalize(moduleName)}Dto = (data) => data;`,
+export const search${capitalize(singularModuleName)}Dto = (data) => data;`,
 
   [`migrations/${migrationFileName}`]: `export const up = async (knex) => {
   await knex.schema.createTable('${moduleName}s', (table) => {
@@ -134,77 +180,77 @@ export const down = async (knex) => {
   await knex.schema.dropTable('${moduleName}s');
 };`,
 
-  [`repositories/${moduleName}-repository.js`]: `import BaseRepository from '#core/base/base-repository.js';
+  [`repositories/${singularModuleName}-repository.js`]: `import BaseRepository from '#core/base/base-repository.js';
 
 /**
  * Repository for managing ${moduleName} data.
  * @class ${capitalize(moduleName)}Repository
  * @extends BaseRepository
  */
-class ${capitalize(moduleName)}Repository extends BaseRepository {
+class ${capitalize(singularModuleName)}Repository extends BaseRepository {
   constructor() {
-    super('${moduleName}s');
+    super('${moduleName}');
   }
 }
 
-export default new ${capitalize(moduleName)}Repository();`,
+export default new ${capitalize(singularModuleName)}Repository();`,
 
-  [`services/${moduleName}-service.js`]: `import { AppError } from '#core/utils/response/error-handler.js';
+  [`services/${singularModuleName}-service.js`]: `import { AppError } from '#core/utils/response/error-handler.js';
 import { getLogger } from '#core/utils/logger/logger.js';
 import GenericCriteria from '#core/filters/criteria/generic-criteria.js';
-import ${moduleName}Repository from '../repositories/${moduleName}-repository.js';
-import { validate${capitalize(moduleName)} } from '../validations/${moduleName}-validation.js';
-import { validate${capitalize(moduleName)}Criteria } from '../validations/${moduleName}-criteria-validation.js';
+import ${capitalize(singularModuleName)}Repository from '../repositories/${singularModuleName}-repository.js';
+import { validate${capitalize(singularModuleName)} } from '../validations/${singularModuleName}-validation.js';
+import { validate${capitalize(singularModuleName)}Criteria } from '../validations/${singularModuleName}-criteria-validation.js';
 import { 
-  create${capitalize(moduleName)}Dto, 
-  update${capitalize(moduleName)}Dto, 
-  search${capitalize(moduleName)}Dto } 
-from '../dto/${moduleName}-dto.js';
+  create${capitalize(singularModuleName)}Dto, 
+  update${capitalize(singularModuleName)}Dto, 
+  search${capitalize(singularModuleName)}Dto 
+} from '../dto/${singularModuleName}-dto.js';
 
 /**
  * Service class for handling employee-related business logic.
- * @class ${capitalize(moduleName)}Service
+ * @class ${capitalize(singularModuleName)}Service
  */
-class ${capitalize(moduleName)}Service {
+class ${capitalize(singularModuleName)}Service {
   /**
-   * Retrieves all ${moduleName}s.
+   * Retrieves all ${moduleName}.
    * @param {Object} params - Query parameters.
-   * @returns {Promise<Object[]>} List of ${moduleName}s.
+   * @returns {Promise<Object[]>} List of ${moduleName}.
    */
   async getAll(params) {
     try {
-      const validatedParams = validate${capitalize(moduleName)}Criteria(params);
-      const dto = search${capitalize(moduleName)}Dto(validatedParams);
+      const validatedParams = validate${capitalize(singularModuleName)}Criteria(params);
+      const dto = search${capitalize(singularModuleName)}Dto(validatedParams);
       
       const criteria = new GenericCriteria(dto, { 
         name: { column: 'name', operator: 'like' } 
       });
 
-      return await ${moduleName}Repository.getAll(criteria);
+      return await ${capitalize(singularModuleName)}Repository.getAll(criteria);
     } catch (error) {
-      getLogger().error(\`Error getAll ${moduleName}s: \${error.message}\`);
+      getLogger().error(\`Error getAll ${moduleName}: \${error.message}\`);
       throw new AppError(
-        error.message || 'Database error while retrieving ${moduleName}s', 
+        error.message || 'Database error while retrieving ${singularModuleName}s', 
         error.statusCode || 500
       );
     }
   }
 
   /**
-   * Retrieves a single ${moduleName} by ID.
-   * @param {number} id - ${capitalize(moduleName)} ID.
-   * @returns {Promise<Object>} ${capitalize(moduleName)} data.
+   * Retrieves a single ${singularModuleName} by ID.
+   * @param {number} id - ${capitalize(singularModuleName)} ID.
+   * @returns {Promise<Object>} ${capitalize(singularModuleName)} data.
    */
   async getById(id) {
     try {
-      const item = await ${moduleName}Repository.getById(id);
-      if (!item) 
-        throw new AppError(\`${capitalize(moduleName)} with ID \${id} not found\`, 404);
-      return item;
+      const ${singularModuleName} = await ${capitalize(singularModuleName)}Repository.getById(id);
+      if (!${singularModuleName}) 
+        throw new AppError(\`${capitalize(singularModuleName)} with ID \${id} not found\`, 404);
+      return ${singularModuleName};
     } catch (error) {
-      getLogger().error(\`Error getById ${moduleName}: \${error.message}\`);
+      getLogger().error(\`Error getById ${singularModuleName}: \${error.message}\`);
       throw new AppError(
-        error.message || 'Database error while retrieving ${moduleName}', 
+        error.message || 'Database error while retrieving ${singularModuleName}', 
         error.statusCode || 500
       );
     }
@@ -217,98 +263,98 @@ class ${capitalize(moduleName)}Service {
    */
   async create(data) {
     try {
-      validate${capitalize(moduleName)}(data);
-      const dto = create${capitalize(moduleName)}Dto(data);
-      return await ${moduleName}Repository.create(dto);
+      validate${capitalize(singularModuleName)}(data);
+      const dto = create${capitalize(singularModuleName)}Dto(data);
+      return await ${capitalize(singularModuleName)}Repository.create(dto);
     } catch (error) {
-      getLogger().error(\`Error create ${moduleName}: \${error.message}\`);
+      getLogger().error(\`Error create ${singularModuleName}: \${error.message}\`);
       throw new AppError(
-        error.message || 'Database error while creating ${moduleName}', 
+        error.message || 'Database error while creating ${singularModuleName}', 
         error.statusCode || 500
       );
     }
   }
 
   /**
-   * Updates an existing ${moduleName}.
-   * @param {number} id - ${capitalize(moduleName)} ID.
-   * @param {Object} data - Updated ${capitalize(moduleName)} details.
-   * @returns {Promise<Object>} Updated ${moduleName} data.
+   * Updates an existing ${singularModuleName}.
+   * @param {number} id - ${capitalize(singularModuleName)} ID.
+   * @param {Object} data - Updated ${capitalize(singularModuleName)} details.
+   * @returns {Promise<Object>} Updated ${singularModuleName} data.
    */
   async update(id, data) {
     try {
-      const item = await this.getById(id);
-      validate${capitalize(moduleName)}(data);
-      const dto = update${capitalize(moduleName)}Dto(data);
-      return await ${moduleName}Repository.update(item.id, dto);
+      const ${singularModuleName} = await this.getById(id);
+      validate${capitalize(singularModuleName)}(data);
+      const dto = update${capitalize(singularModuleName)}Dto(data);
+      return await ${capitalize(singularModuleName)}Repository.update(${singularModuleName}.id, dto);
     } catch (error) {
-      getLogger().error(\`Error update ${moduleName}: \${error.message}\`);
+      getLogger().error(\`Error update ${singularModuleName}: \${error.message}\`);
       throw new AppError(
-        error.message || 'Database error while updating ${moduleName}', 
+        error.message || 'Database error while updating ${singularModuleName}', 
         error.statusCode || 500
       );
     }
   }
 
   /**
-   * Deletes a ${moduleName} by ID.
-   * @param {number} id - ${capitalize(moduleName)} ID.
+   * Deletes a ${singularModuleName} by ID.
+   * @param {number} id - ${capitalize(singularModuleName)} ID.
    * @returns {Promise<void>} Resolves when the deletion is complete.
    */
   async delete(id) {
     try {
-      const item = await this.getById(id);
-      return await ${moduleName}Repository.delete(item.id);
+      const ${singularModuleName} = await this.getById(id);
+      return await ${capitalize(singularModuleName)}Repository.delete(${singularModuleName}.id);
     } catch (error) {
-      getLogger().error(\`Error delete ${moduleName}: \${error.message}\`);
+      getLogger().error(\`Error delete ${singularModuleName}: \${error.message}\`);
       throw new AppError(
-        error.message || 'Database error while deleting ${moduleName}', 
+        error.message || 'Database error while deleting ${singularModuleName}', 
         error.statusCode || 500
       );
     }
   }
 }
 
-export default new ${capitalize(moduleName)}Service();`,
+export default new ${capitalize(singularModuleName)}Service();`,
 
-  [`validations/${moduleName}-validation.js`]: `import Joi from 'joi';
+  [`validations/${singularModuleName}-validation.js`]: `import Joi from 'joi';
 import { AppError } from '#core/utils/response/error-handler.js';
 
 /**
- * Schema definition for ${moduleName} validation.
+ * Schema definition for ${singularModuleName} validation.
  * @constant {Joi.ObjectSchema}
  */
-const ${moduleName}Schema = Joi.object({ name: Joi.string().max(50).required() });
+const ${singularModuleName}Schema = Joi.object({ name: Joi.string().max(50).required() });
 
 /**
- * Validates ${moduleName} data against the schema.
- * @param {Object} ${moduleName}Data - ${moduleName} data to be validated.
+ * Validates ${singularModuleName} data against the schema.
+ * @param {Object} ${singularModuleName}Data - ${singularModuleName} data to be validated.
  * @throws {Error} If validation fails.
  */
-export const validate${capitalize(moduleName)} = (data) => {
-  const { error } = ${moduleName}Schema.validate(data);
+export const validate${capitalize(singularModuleName)} = (data) => {
+  const { error } = ${singularModuleName}Schema.validate(data);
   if (error) throw new AppError(error.details[0].message, 400);
   return data;
 };`,
 
-  [`validations/${moduleName}-criteria-validation.js`]: `import Joi from 'joi';
+  [`validations/${singularModuleName}-criteria-validation.js`]: `import Joi from 'joi';
 import { AppError } from '#core/utils/response/error-handler.js';
 
 /**
- * Schema definition for validating ${moduleName} search criteria.
+ * Schema definition for validating ${singularModuleName} search criteria.
  * @constant {Joi.ObjectSchema}
  */
-const ${moduleName}CriteriaSchema = Joi.object({ name: Joi.string().max(50).optional() });
+const ${singularModuleName}CriteriaSchema = Joi.object({ name: Joi.string().max(50).optional() });
 
 /**
- * Validates the ${moduleName} search criteria using the defined schema.
+ * Validates the request search criteria using the defined schema.
  *
  * @param {Object} criteria - The search criteria object containing query parameters.
  * @returns {Object} The validated and possibly transformed criteria.
  * @throws {AppError} Throws an AppError with a 400 status code if validation fails.
  */
-export const validate${capitalize(moduleName)}Criteria = (criteria) => {
-  const { error, value } = ${moduleName}CriteriaSchema.validate(criteria);
+export const validate${capitalize(singularModuleName)}Criteria = (criteria) => {
+  const { error, value } = ${singularModuleName}CriteriaSchema.validate(criteria);
   if (error) throw new AppError(error.details[0].message, 400);
   return value;
 };`,
@@ -322,7 +368,7 @@ Object.entries(files).forEach(([filePath, content]) => {
   }
 });
 
-const testFilePath = path.join(testFolder, `${moduleName}.spec.js`);
+const testFilePath = path.join(testFolder, `${singularModuleName}.spec.js`);
 if (!fs.existsSync(testFilePath)) {
   fs.writeFileSync(
     testFilePath,
