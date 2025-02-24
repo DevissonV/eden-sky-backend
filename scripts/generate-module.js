@@ -100,8 +100,26 @@ class ${capitalize(moduleName)}Controller extends BaseController {
 
 export default new ${capitalize(moduleName)}Controller();`,
 
-  [`dto/${moduleName}-dto.js`]: `export const create${capitalize(moduleName)}Dto = (data) => data;
+  [`dto/${moduleName}-dto.js`]: `
+/**
+ * Transforms the validated ${moduleName} data into a DTO for creation.
+ * @param {Object} data - The validated ${moduleName} data.
+ * @returns {Object} A DTO containing only the necessary properties.
+ */
+export const create${capitalize(moduleName)}Dto = (data) => data;
+
+/**
+ * Transforms the validated ${moduleName} data into a DTO for updating.
+ * @param {Object} data - The validated ${moduleName} data.
+ * @returns {Object} A DTO containing only the properties that can be updated.
+ */
 export const update${capitalize(moduleName)}Dto = (data) => data;
+
+/**
+ * Transforms the validated search criteria into a DTO for filtering ${moduleName}.
+ * @param {Object} params - The validated query parameters.
+ * @returns {Object} A DTO with the standardized search criteria.
+ */
 export const search${capitalize(moduleName)}Dto = (data) => data;`,
 
   [`migrations/${migrationFileName}`]: `export const up = async (knex) => {
