@@ -56,6 +56,8 @@
 ┃ ┃ ┃ ┃ ┗ 📜request-routes.js
 ┃ ┃ ┃ ┣ 📂controllers
 ┃ ┃ ┃ ┃ ┗ 📜request-controller.js
+┃ ┃ ┃ ┣ 📂dto
+┃ ┃ ┃ ┃ ┗ 📜request-dto.js
 ┃ ┃ ┃ ┣ 📂migrations
 ┃ ┃ ┃ ┃ ┗ 📜20241205225101_create_requests_table.js
 ┃ ┃ ┃ ┣ 📂repositories
@@ -99,6 +101,7 @@
 ┣ 📜LICENSE
 ┣ 📜package.json
 ┗ 📜README.md
+
 
 ```
 

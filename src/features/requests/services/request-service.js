@@ -4,6 +4,11 @@ import GenericCriteria from '#core/filters/criteria/generic-criteria.js';
 import requestRepository from '../repositories/request-repository.js';
 import { validateRequest } from '../validations/request-validation.js';
 import { validateRequestCriteria } from '../validations/request-criteria-validation.js';
+import {
+  createRequestDto,
+  updateRequestDto,
+  searchRequestDto,
+} from '../dto/request-dto.js';
 
 /**
  * Service class for handling request-related business logic.
@@ -17,7 +22,8 @@ class RequestService {
    */
   async getAll(params) {
     try {
-      const dto = validateRequestCriteria(params);
+      const validatedParams = validateRequestCriteria(params);
+      const dto = searchRequestDto(validatedParams);
 
       const criteria = new GenericCriteria(dto, {
         code: { column: 'code', operator: 'like' },
@@ -43,9 +49,10 @@ class RequestService {
    */
   async getById(id) {
     try {
-      const request = await requestRepository.getById(id);
-      if (!request) throw new AppError(`Request with ID ${id} not found`, 404);
-      return request;
+      const reqRecord = await requestRepository.getById(id);
+      if (!reqRecord)
+        throw new AppError(`Request with ID ${id} not found`, 404);
+      return reqRecord;
     } catch (error) {
       getLogger().error(`Error getById request: ${error.message}`);
       throw new AppError(
@@ -63,7 +70,9 @@ class RequestService {
   async create(data) {
     try {
       validateRequest(data);
-      return await requestRepository.create(data);
+      const dto = createRequestDto(data);
+
+      return await requestRepository.create(dto);
     } catch (error) {
       getLogger().error(`Error create request: ${error.message}`);
       throw new AppError(
@@ -81,9 +90,11 @@ class RequestService {
    */
   async update(id, data) {
     try {
-      const request = await this.getById(id);
+      const reqRecord = await this.getById(id);
       validateRequest(data);
-      return await requestRepository.update(request.id, data);
+      const dto = updateRequestDto(data);
+
+      return await requestRepository.update(reqRecord.id, dto);
     } catch (error) {
       getLogger().error(`Error update request: ${error.message}`);
       throw new AppError(
@@ -100,8 +111,8 @@ class RequestService {
    */
   async delete(id) {
     try {
-      const request = await this.getById(id);
-      return await requestRepository.delete(request.id);
+      const reqRecord = await this.getById(id);
+      return await requestRepository.delete(reqRecord.id);
     } catch (error) {
       getLogger().error(`Error delete request: ${error.message}`);
       throw new AppError(
