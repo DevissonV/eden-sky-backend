@@ -37,6 +37,8 @@
 ┃ ┃ ┃ ┃ ┗ 📜employee-routes.js
 ┃ ┃ ┃ ┣ 📂controllers
 ┃ ┃ ┃ ┃ ┗ 📜employee-controller.js
+┃ ┃ ┃ ┣ 📂dto
+┃ ┃ ┃ ┃ ┗ 📜employee-dto.js
 ┃ ┃ ┃ ┣ 📂migrations
 ┃ ┃ ┃ ┃ ┗ 📜20241205225059_create_employees_table.js
 ┃ ┃ ┃ ┣ 📂repositories
@@ -101,6 +103,7 @@
 ┣ 📜LICENSE
 ┣ 📜package.json
 ┗ 📜README.md
+
 
 
 ```
