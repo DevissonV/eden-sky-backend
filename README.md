@@ -220,3 +220,35 @@ Para facilitar la ejecución y prueba de las APIs en Postman:
 - En la raíz del proyecto hay un archivo llamado `eden-sky-collection.json`.
   Importa este archivo en Postman para cargar todas las rutas y configuraciones del proyecto.
 - Ajusta las variables de entorno en Postman según tu configuración local o de Docker, variable `{{URL}}`.
+
+## Generacion modulos nuevos
+
+Para generar un modulo nuevo pararse en la raiz del proyecto y ejecutar:
+
+```
+npm run generate-module nameModule
+```
+
+Automaticamente se le generara el modulo con su estructura:
+
+```
+nameModule
+┣ 📂api
+┃ ┗ 📜nameModule-routes.js
+┣ 📂controllers
+┃ ┗ 📜nameModule-controller.js
+┣ 📂dto
+┃ ┗ 📜nameModule-dto.js
+┣ 📂migrations
+┃ ┗ 📜20250224210522_create_nameModule_table.js
+┣ 📂repositories
+┃ ┗ 📜nameModule-repository.js
+┣ 📂services
+┃ ┗ 📜nameModule-service.js
+┗ 📂validations
+  ┣ 📜nameModule-criteria-validation.js
+  ┗ 📜nameModule-validation.js
+
+```
+
+TENER PRESENTE: agregar la nueva ruta creada en: src/routes/api-routes.js
