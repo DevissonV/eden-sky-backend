@@ -4,6 +4,11 @@ import GenericCriteria from '#core/filters/criteria/generic-criteria.js';
 import employeeRepository from '../repositories/employee-repository.js';
 import { validateEmployee } from '../validations/employee-validation.js';
 import { validateEmployeeCriteria } from '../validations/employee-criteria-validation.js';
+import {
+  createEmployeeDto,
+  updateEmployeeDto,
+  searchEmployeeDto,
+} from '../dto/employee-dto.js';
 
 /**
  * Service class for handling employee-related business logic.
@@ -17,7 +22,8 @@ class EmployeeService {
    */
   async getAll(params) {
     try {
-      const dto = validateEmployeeCriteria(params);
+      const validatedParams = validateEmployeeCriteria(params);
+      const dto = searchEmployeeDto(validatedParams);
 
       const criteria = new GenericCriteria(dto, {
         name: { column: 'name', operator: 'like' },
@@ -63,7 +69,8 @@ class EmployeeService {
   async create(data) {
     try {
       validateEmployee(data);
-      return await employeeRepository.create(data);
+      const dto = createEmployeeDto(data);
+      return await employeeRepository.create(dto);
     } catch (error) {
       getLogger().error(`Error create employee: ${error.message}`);
       throw new AppError(
@@ -83,7 +90,8 @@ class EmployeeService {
     try {
       const employee = await this.getById(id);
       validateEmployee(data);
-      return await employeeRepository.update(employee.id, data);
+      const dto = updateEmployeeDto(data);
+      return await employeeRepository.update(employee.id, dto);
     } catch (error) {
       getLogger().error(`Error update employee: ${error.message}`);
       throw new AppError(
