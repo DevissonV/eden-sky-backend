@@ -1,25 +1,9 @@
-import app from '../src/server.js';
+import app from '../../src/server.js';
 import request from 'supertest';
 
-describe('Request API', () => {
+describe('Employee API', () => {
   let token;
-  let createdRequestId;
   let createdEmployeeId;
-
-  const createEmployee = async () => {
-    const employeeData = {
-      name: 'Devisson',
-      hire_date: '2025-02-01',
-      salary: 5000,
-    };
-
-    const res = await request(app)
-      .post('/api/employees/')
-      .set('Authorization', `Bearer ${token}`)
-      .send(employeeData);
-
-    return res.body.data[0].id;
-  };
 
   const registerAndLoginUser = async () => {
     await request(app).post('/api/users/register').send({
@@ -38,37 +22,35 @@ describe('Request API', () => {
 
   beforeAll(async () => {
     token = await registerAndLoginUser();
-    createdEmployeeId = await createEmployee();
   });
 
   afterAll(async () => {
     await request(app)
-      .delete(`/api/users/`)
+      .delete('/api/users/')
       .set('Authorization', `Bearer ${token}`)
       .send({ username: 'userCreatedForTesting' });
   });
 
-  it('should create a new request', async () => {
-    const requestData = {
-      code: 'REQ001',
-      description: 'First request description',
-      summary: 'Summary of the first request',
-      employee_id: createdEmployeeId,
+  it('should create a new employee', async () => {
+    const employeeData = {
+      name: 'Devisson',
+      hire_date: '2025-02-01',
+      salary: 5000,
     };
 
     const response = await request(app)
-      .post('/api/requests/')
+      .post('/api/employees/')
       .set('Authorization', `Bearer ${token}`)
-      .send(requestData);
+      .send(employeeData);
 
     expect(response.status).toBe(201);
-    expect(response.body.data[0]).toHaveProperty('code', requestData.code);
-    createdRequestId = response.body.data[0].id;
+    expect(response.body.data[0]).toHaveProperty('name', employeeData.name);
+    createdEmployeeId = response.body.data[0].id;
   });
 
-  it('should get all requests', async () => {
+  it('should get all employees', async () => {
     const response = await request(app)
-      .get('/api/requests')
+      .get('/api/employees/')
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
@@ -76,38 +58,34 @@ describe('Request API', () => {
     expect(Array.isArray(response.body.data)).toBe(true);
   });
 
-  it('should get a single request by ID', async () => {
+  it('should get a single employee by ID', async () => {
     const response = await request(app)
-      .get(`/api/requests/${createdRequestId}`)
+      .get(`/api/employees/${createdEmployeeId}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
-    expect(response.body.data).toHaveProperty('id', createdRequestId);
+    expect(response.body.data).toHaveProperty('id', createdEmployeeId);
   });
 
-  it('should update a request', async () => {
+  it('should update an employee', async () => {
     const updatedData = {
-      code: 'REQ001',
-      description: 'Edit request description',
-      summary: 'Summary of the first request',
-      employee_id: createdEmployeeId,
+      name: 'Dev',
+      hire_date: '2025-03-01',
+      salary: 3000,
     };
 
     const response = await request(app)
-      .patch(`/api/requests/${createdRequestId}`)
+      .patch(`/api/employees/${createdEmployeeId}`)
       .set('Authorization', `Bearer ${token}`)
       .send(updatedData);
 
     expect(response.status).toBe(200);
-    expect(response.body.data[0]).toHaveProperty(
-      'description',
-      updatedData.description,
-    );
+    expect(response.body.data[0]).toHaveProperty('name', updatedData.name);
   });
 
-  it('should delete a request', async () => {
+  it('should delete an employee', async () => {
     const response = await request(app)
-      .delete(`/api/requests/${createdRequestId}`)
+      .delete(`/api/employees/${createdEmployeeId}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);

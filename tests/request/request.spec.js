@@ -1,9 +1,25 @@
-import app from '../src/server.js';
+import app from '../../src/server.js';
 import request from 'supertest';
 
-describe('Employee API', () => {
+describe('Request API', () => {
   let token;
+  let createdRequestId;
   let createdEmployeeId;
+
+  const createEmployee = async () => {
+    const employeeData = {
+      name: 'Devisson',
+      hire_date: '2025-02-01',
+      salary: 5000,
+    };
+
+    const res = await request(app)
+      .post('/api/employees/')
+      .set('Authorization', `Bearer ${token}`)
+      .send(employeeData);
+
+    return res.body.data[0].id;
+  };
 
   const registerAndLoginUser = async () => {
     await request(app).post('/api/users/register').send({
@@ -22,35 +38,37 @@ describe('Employee API', () => {
 
   beforeAll(async () => {
     token = await registerAndLoginUser();
+    createdEmployeeId = await createEmployee();
   });
 
   afterAll(async () => {
     await request(app)
-      .delete('/api/users/')
+      .delete(`/api/users/`)
       .set('Authorization', `Bearer ${token}`)
       .send({ username: 'userCreatedForTesting' });
   });
 
-  it('should create a new employee', async () => {
-    const employeeData = {
-      name: 'Devisson',
-      hire_date: '2025-02-01',
-      salary: 5000,
+  it('should create a new request', async () => {
+    const requestData = {
+      code: 'REQ001',
+      description: 'First request description',
+      summary: 'Summary of the first request',
+      employee_id: createdEmployeeId,
     };
 
     const response = await request(app)
-      .post('/api/employees/')
+      .post('/api/requests/')
       .set('Authorization', `Bearer ${token}`)
-      .send(employeeData);
+      .send(requestData);
 
     expect(response.status).toBe(201);
-    expect(response.body.data[0]).toHaveProperty('name', employeeData.name);
-    createdEmployeeId = response.body.data[0].id;
+    expect(response.body.data[0]).toHaveProperty('code', requestData.code);
+    createdRequestId = response.body.data[0].id;
   });
 
-  it('should get all employees', async () => {
+  it('should get all requests', async () => {
     const response = await request(app)
-      .get('/api/employees/')
+      .get('/api/requests')
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
@@ -58,34 +76,38 @@ describe('Employee API', () => {
     expect(Array.isArray(response.body.data)).toBe(true);
   });
 
-  it('should get a single employee by ID', async () => {
+  it('should get a single request by ID', async () => {
     const response = await request(app)
-      .get(`/api/employees/${createdEmployeeId}`)
+      .get(`/api/requests/${createdRequestId}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
-    expect(response.body.data).toHaveProperty('id', createdEmployeeId);
+    expect(response.body.data).toHaveProperty('id', createdRequestId);
   });
 
-  it('should update an employee', async () => {
+  it('should update a request', async () => {
     const updatedData = {
-      name: 'Dev',
-      hire_date: '2025-03-01',
-      salary: 3000,
+      code: 'REQ001',
+      description: 'Edit request description',
+      summary: 'Summary of the first request',
+      employee_id: createdEmployeeId,
     };
 
     const response = await request(app)
-      .patch(`/api/employees/${createdEmployeeId}`)
+      .patch(`/api/requests/${createdRequestId}`)
       .set('Authorization', `Bearer ${token}`)
       .send(updatedData);
 
     expect(response.status).toBe(200);
-    expect(response.body.data[0]).toHaveProperty('name', updatedData.name);
+    expect(response.body.data[0]).toHaveProperty(
+      'description',
+      updatedData.description,
+    );
   });
 
-  it('should delete an employee', async () => {
+  it('should delete a request', async () => {
     const response = await request(app)
-      .delete(`/api/employees/${createdEmployeeId}`)
+      .delete(`/api/requests/${createdRequestId}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
