@@ -74,6 +74,8 @@
 ┃ ┃   ┃ ┗ 📜user-routes.js
 ┃ ┃   ┣ 📂controllers
 ┃ ┃   ┃ ┗ 📜user-controller.js
+┃ ┃   ┣ 📂dto
+┃ ┃   ┃ ┗ 📜user-dto.js
 ┃ ┃   ┣ 📂migrations
 ┃ ┃   ┃ ┗ 📜20241206173037_create_users_table.js
 ┃ ┃   ┣ 📂repositories
@@ -103,7 +105,6 @@
 ┣ 📜LICENSE
 ┣ 📜package.json
 ┗ 📜README.md
-
 
 
 ```
