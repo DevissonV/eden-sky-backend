@@ -155,7 +155,11 @@ import GenericCriteria from '#core/filters/criteria/generic-criteria.js';
 import ${moduleName}Repository from '../repositories/${moduleName}-repository.js';
 import { validate${capitalize(moduleName)} } from '../validations/${moduleName}-validation.js';
 import { validate${capitalize(moduleName)}Criteria } from '../validations/${moduleName}-criteria-validation.js';
-import { create${capitalize(moduleName)}Dto, update${capitalize(moduleName)}Dto, search${capitalize(moduleName)}Dto } from '../dto/${moduleName}-dto.js';
+import { 
+  create${capitalize(moduleName)}Dto, 
+  update${capitalize(moduleName)}Dto, 
+  search${capitalize(moduleName)}Dto } 
+from '../dto/${moduleName}-dto.js';
 
 /**
  * Service class for handling employee-related business logic.
