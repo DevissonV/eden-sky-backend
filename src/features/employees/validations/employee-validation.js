@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { AppError } from '#core/utils/response/error-handler.js';
 
 /**
  * Schema definition for employee validation.
@@ -13,11 +14,12 @@ const employeeSchema = Joi.object({
 /**
  * Validates employee data against the schema.
  * @param {Object} employeeData - Employee data to be validated.
- * @throws {Error} If validation fails.
+ * @throws {AppError} If validation fails.
  */
 export const validateEmployee = (employeeData) => {
   const { error } = employeeSchema.validate(employeeData);
   if (error) {
-    throw new Error(error.details[0].message);
+    throw new AppError(error.details[0].message, 400);
   }
+  return employeeData;
 };

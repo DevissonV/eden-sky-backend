@@ -5,6 +5,7 @@ import { AppError } from '#core/utils/response/error-handler.js';
 import { getLogger } from '#core/utils/logger/logger.js';
 import userRepository from '../repositories/user-repository.js';
 import { validateUser } from '../validations/user-validation.js';
+import { createUserDto, loginUserDto } from '../dto/user-dto.js';
 
 /**
  * Service class for managing user-related business logic.
@@ -18,12 +19,21 @@ class UserService {
    */
   async register(data) {
     try {
-      validateUser(data);
-      const existingUser = await userRepository.findByUsername(data.username);
-      if (existingUser) throw new AppError('Username already exists', 400);
+      const validatedData = validateUser(data);
 
-      data.password = await bcrypt.hash(data.password, 10);
-      return await userRepository.create(data);
+      const existingUser = await userRepository.findByUsername(
+        validatedData.username,
+      );
+
+      if (existingUser) {
+        throw new AppError('Username already exists', 400);
+      }
+
+      validatedData.password = await bcrypt.hash(validatedData.password, 10);
+
+      const dto = createUserDto(validatedData);
+
+      return await userRepository.create(dto);
     } catch (error) {
       getLogger().error(`Error register user: ${error.message}`);
       throw new AppError(
@@ -40,11 +50,9 @@ class UserService {
    */
   async login(credentials) {
     try {
-      const user = await userRepository.findByUsername(credentials.username);
-      if (
-        !user ||
-        !(await bcrypt.compare(credentials.password, user.password))
-      ) {
+      const dto = loginUserDto(credentials);
+      const user = await userRepository.findByUsername(dto.username);
+      if (!user || !(await bcrypt.compare(dto.password, user.password))) {
         throw new AppError('Invalid username or password', 401);
       }
       const token = jwt.sign(
@@ -70,7 +78,9 @@ class UserService {
   async deleteByUsername(username) {
     try {
       const user = await userRepository.findByUsername(username);
-      if (!user) throw new AppError(`User ${username} not found`, 404);
+      if (!user) {
+        throw new AppError(`User ${username} not found`, 404);
+      }
       await userRepository.deleteByUsername(username);
     } catch (error) {
       getLogger().error(`Error delete user: ${error.message}`);

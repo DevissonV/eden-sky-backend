@@ -6,8 +6,8 @@
 ┣ 📂.docker
 ┃ ┗ 📜Dockerfile.dev
 ┣ 📂logs
-┃ ┣ 📜app-2025-02-22_19-50.log
-┃ ┗ 📜app-2025-02-22_19-51.log
+┃ ┣ 📜app-old.log
+┃ ┗ 📜app-new.log
 ┣ 📂src
 ┃ ┣ 📂core
 ┃ ┃ ┣ 📂base
@@ -27,19 +27,18 @@
 ┃ ┃   ┣ 📂logger
 ┃ ┃   ┃ ┣ 📜log-manager.js
 ┃ ┃   ┃ ┗ 📜logger.js
-┃ ┃   ┣ 📂response
-┃ ┃   ┃ ┣ 📜api-response-templates.js
-┃ ┃   ┃ ┣ 📜error-handler.js
-┃ ┃   ┃ ┣ 📜response-handler.js
-┃ ┃   ┃ ┗ 📜response.js
-┃ ┃   ┗ 📂validations
-┃ ┃     ┗ 📜pagination-validation.js
+┃ ┃   ┗ 📂response
+┃ ┃     ┣ 📜api-response-templates.js
+┃ ┃     ┣ 📜error-handler.js
+┃ ┃     ┗ 📜response-handler.js
 ┃ ┣ 📂features
 ┃ ┃ ┣ 📂employees
 ┃ ┃ ┃ ┣ 📂api
 ┃ ┃ ┃ ┃ ┗ 📜employee-routes.js
 ┃ ┃ ┃ ┣ 📂controllers
 ┃ ┃ ┃ ┃ ┗ 📜employee-controller.js
+┃ ┃ ┃ ┣ 📂dto
+┃ ┃ ┃ ┃ ┗ 📜employee-dto.js
 ┃ ┃ ┃ ┣ 📂migrations
 ┃ ┃ ┃ ┃ ┗ 📜20241205225059_create_employees_table.js
 ┃ ┃ ┃ ┣ 📂repositories
@@ -47,6 +46,7 @@
 ┃ ┃ ┃ ┣ 📂services
 ┃ ┃ ┃ ┃ ┗ 📜employee-service.js
 ┃ ┃ ┃ ┗ 📂validations
+┃ ┃ ┃   ┣ 📜employee-criteria-validation.js
 ┃ ┃ ┃   ┗ 📜employee-validation.js
 ┃ ┃ ┣ 📂health-checks
 ┃ ┃ ┃ ┣ 📂api
@@ -58,6 +58,8 @@
 ┃ ┃ ┃ ┃ ┗ 📜request-routes.js
 ┃ ┃ ┃ ┣ 📂controllers
 ┃ ┃ ┃ ┃ ┗ 📜request-controller.js
+┃ ┃ ┃ ┣ 📂dto
+┃ ┃ ┃ ┃ ┗ 📜request-dto.js
 ┃ ┃ ┃ ┣ 📂migrations
 ┃ ┃ ┃ ┃ ┗ 📜20241205225101_create_requests_table.js
 ┃ ┃ ┃ ┣ 📂repositories
@@ -65,12 +67,15 @@
 ┃ ┃ ┃ ┣ 📂services
 ┃ ┃ ┃ ┃ ┗ 📜request-service.js
 ┃ ┃ ┃ ┗ 📂validations
+┃ ┃ ┃   ┣ 📜request-criteria-validation.js
 ┃ ┃ ┃   ┗ 📜request-validation.js
 ┃ ┃ ┗ 📂users
 ┃ ┃   ┣ 📂api
 ┃ ┃   ┃ ┗ 📜user-routes.js
 ┃ ┃   ┣ 📂controllers
 ┃ ┃   ┃ ┗ 📜user-controller.js
+┃ ┃   ┣ 📂dto
+┃ ┃   ┃ ┗ 📜user-dto.js
 ┃ ┃   ┣ 📂migrations
 ┃ ┃   ┃ ┗ 📜20241206173037_create_users_table.js
 ┃ ┃   ┣ 📂repositories
@@ -95,10 +100,12 @@
 ┣ 📜docker-compose.dev.yml
 ┣ 📜eden-sky-collection.json
 ┣ 📜jest.config.mjs
+┣ 📜jsconfig.json
 ┣ 📜knexfile.js
 ┣ 📜LICENSE
 ┣ 📜package.json
 ┗ 📜README.md
+
 
 ```
 

@@ -3,6 +3,12 @@ import { getLogger } from '#core/utils/logger/logger.js';
 import GenericCriteria from '#core/filters/criteria/generic-criteria.js';
 import requestRepository from '../repositories/request-repository.js';
 import { validateRequest } from '../validations/request-validation.js';
+import { validateRequestCriteria } from '../validations/request-criteria-validation.js';
+import {
+  createRequestDto,
+  updateRequestDto,
+  searchRequestDto,
+} from '../dto/request-dto.js';
 
 /**
  * Service class for handling request-related business logic.
@@ -16,16 +22,23 @@ class RequestService {
    */
   async getAll(params) {
     try {
-      const criteria = new GenericCriteria(params, {
+      const validatedParams = validateRequestCriteria(params);
+      const dto = searchRequestDto(validatedParams);
+
+      const criteria = new GenericCriteria(dto, {
         code: { column: 'code', operator: 'like' },
         description: { column: 'description', operator: 'like' },
         summary: { column: 'summary', operator: 'like' },
         employee_id: { column: 'employee_id', operator: '=' },
       });
+
       return await requestRepository.getAll(criteria);
     } catch (error) {
       getLogger().error(`Error getAll requests: ${error.message}`);
-      throw new AppError('Database error while retrieving requests', 500);
+      throw new AppError(
+        error.message || 'Database error while retrieving requests',
+        error.statusCode || 500,
+      );
     }
   }
 
@@ -36,9 +49,10 @@ class RequestService {
    */
   async getById(id) {
     try {
-      const request = await requestRepository.getById(id);
-      if (!request) throw new AppError(`Request with ID ${id} not found`, 404);
-      return request;
+      const reqRecord = await requestRepository.getById(id);
+      if (!reqRecord)
+        throw new AppError(`Request with ID ${id} not found`, 404);
+      return reqRecord;
     } catch (error) {
       getLogger().error(`Error getById request: ${error.message}`);
       throw new AppError(
@@ -56,7 +70,9 @@ class RequestService {
   async create(data) {
     try {
       validateRequest(data);
-      return await requestRepository.create(data);
+      const dto = createRequestDto(data);
+
+      return await requestRepository.create(dto);
     } catch (error) {
       getLogger().error(`Error create request: ${error.message}`);
       throw new AppError(
@@ -74,9 +90,11 @@ class RequestService {
    */
   async update(id, data) {
     try {
-      const request = await this.getById(id);
+      const reqRecord = await this.getById(id);
       validateRequest(data);
-      return await requestRepository.update(request.id, data);
+      const dto = updateRequestDto(data);
+
+      return await requestRepository.update(reqRecord.id, dto);
     } catch (error) {
       getLogger().error(`Error update request: ${error.message}`);
       throw new AppError(
@@ -93,8 +111,8 @@ class RequestService {
    */
   async delete(id) {
     try {
-      const request = await this.getById(id);
-      return await requestRepository.delete(request.id);
+      const reqRecord = await this.getById(id);
+      return await requestRepository.delete(reqRecord.id);
     } catch (error) {
       getLogger().error(`Error delete request: ${error.message}`);
       throw new AppError(
