@@ -191,7 +191,7 @@ NOTA: esto solo es un dato informativo para generar nuevas migraciones, pero no 
 
 ### Ejecutar las pruebas
 
-Para ejecutar las pruebas unitarias y de integración (usando Jest y Supertest), utiliza los siguientes comandos:
+Para ejecutar las pruebas de integración (usando Jest y Supertest), utiliza los siguientes comandos:
 
 ```
 npm test auth.spec.js
@@ -200,6 +200,8 @@ npm test request.spec.js
 ```
 
 Cada comando ejecutará los tests definidos en los archivos especificados. Asegúrate de que las rutas de prueba sean correctas y estén configuradas para el entorno de desarrollo.
+
+IMPORTANTE: tener presente que la ejecución de las pruebas puede afectar los datos del schema de BD al que este apuntando
 
 ### Consideraciones adicionales
 
