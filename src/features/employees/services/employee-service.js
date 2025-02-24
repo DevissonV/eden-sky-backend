@@ -3,6 +3,7 @@ import { getLogger } from '#core/utils/logger/logger.js';
 import GenericCriteria from '#core/filters/criteria/generic-criteria.js';
 import employeeRepository from '../repositories/employee-repository.js';
 import { validateEmployee } from '../validations/employee-validation.js';
+import { validateEmployeeCriteria } from '../validations/employee-criteria-validation.js';
 
 /**
  * Service class for handling employee-related business logic.
@@ -16,15 +17,21 @@ class EmployeeService {
    */
   async getAll(params) {
     try {
-      const criteria = new GenericCriteria(params, {
+      const dto = validateEmployeeCriteria(params);
+
+      const criteria = new GenericCriteria(dto, {
         name: { column: 'name', operator: 'like' },
         minSalary: { column: 'salary', operator: '>=' },
         hireDate: { column: 'hire_date', operator: '=' },
       });
+
       return await employeeRepository.getAll(criteria);
     } catch (error) {
       getLogger().error(`Error getAll employees: ${error.message}`);
-      throw new AppError('Database error while retrieving employees', 500);
+      throw new AppError(
+        error.message || 'Database error while retrieving employees',
+        error.statusCode || 500,
+      );
     }
   }
 

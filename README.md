@@ -6,8 +6,8 @@
 ┣ 📂.docker
 ┃ ┗ 📜Dockerfile.dev
 ┣ 📂logs
-┃ ┣ 📜app-2025-02-22_19-50.log
-┃ ┗ 📜app-2025-02-22_19-51.log
+┃ ┣ 📜app-old.log
+┃ ┗ 📜app-new.log
 ┣ 📂src
 ┃ ┣ 📂core
 ┃ ┃ ┣ 📂base
@@ -27,13 +27,10 @@
 ┃ ┃   ┣ 📂logger
 ┃ ┃   ┃ ┣ 📜log-manager.js
 ┃ ┃   ┃ ┗ 📜logger.js
-┃ ┃   ┣ 📂response
-┃ ┃   ┃ ┣ 📜api-response-templates.js
-┃ ┃   ┃ ┣ 📜error-handler.js
-┃ ┃   ┃ ┣ 📜response-handler.js
-┃ ┃   ┃ ┗ 📜response.js
-┃ ┃   ┗ 📂validations
-┃ ┃     ┗ 📜pagination-validation.js
+┃ ┃   ┗ 📂response
+┃ ┃     ┣ 📜api-response-templates.js
+┃ ┃     ┣ 📜error-handler.js
+┃ ┃     ┗ 📜response-handler.js
 ┃ ┣ 📂features
 ┃ ┃ ┣ 📂employees
 ┃ ┃ ┃ ┣ 📂api
@@ -47,6 +44,7 @@
 ┃ ┃ ┃ ┣ 📂services
 ┃ ┃ ┃ ┃ ┗ 📜employee-service.js
 ┃ ┃ ┃ ┗ 📂validations
+┃ ┃ ┃   ┣ 📜employee-criteria-validation.js
 ┃ ┃ ┃   ┗ 📜employee-validation.js
 ┃ ┃ ┣ 📂health-checks
 ┃ ┃ ┃ ┣ 📂api
@@ -95,6 +93,7 @@
 ┣ 📜docker-compose.dev.yml
 ┣ 📜eden-sky-collection.json
 ┣ 📜jest.config.mjs
+┣ 📜jsconfig.json
 ┣ 📜knexfile.js
 ┣ 📜LICENSE
 ┣ 📜package.json
