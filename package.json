@@ -9,7 +9,8 @@
     "dev": "nodemon src/server.js",
     "start-docker": "npm run migrations && npm run dev",
     "migrations": "npx knex migrate:latest",
-    "test": "cross-env NODE_ENV=development NODE_OPTIONS=--experimental-vm-modules jest"
+    "test": "cross-env NODE_ENV=development NODE_OPTIONS=--experimental-vm-modules jest",
+    "generate-module": "node scripts/generate-module.js"
   },
   "license": "ISC",
   "dependencies": {
