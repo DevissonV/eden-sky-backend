@@ -12,6 +12,7 @@ const envVarsSchema = Joi.object({
   DB_USER: Joi.string().required(),
   DB_PASSWORD: Joi.string().required(),
   DB_NAME: Joi.string().required(),
+  DB_SCHEMA: Joi.string().required(),
   NODE_ENV: Joi.string()
     .valid('development', 'production')
     .required()
