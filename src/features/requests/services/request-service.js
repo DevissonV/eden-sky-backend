@@ -3,6 +3,7 @@ import { getLogger } from '#core/utils/logger/logger.js';
 import GenericCriteria from '#core/filters/criteria/generic-criteria.js';
 import requestRepository from '../repositories/request-repository.js';
 import { validateRequest } from '../validations/request-validation.js';
+import { validateRequestCriteria } from '../validations/request-criteria-validation.js';
 
 /**
  * Service class for handling request-related business logic.
@@ -16,16 +17,22 @@ class RequestService {
    */
   async getAll(params) {
     try {
-      const criteria = new GenericCriteria(params, {
+      const dto = validateRequestCriteria(params);
+
+      const criteria = new GenericCriteria(dto, {
         code: { column: 'code', operator: 'like' },
         description: { column: 'description', operator: 'like' },
         summary: { column: 'summary', operator: 'like' },
         employee_id: { column: 'employee_id', operator: '=' },
       });
+
       return await requestRepository.getAll(criteria);
     } catch (error) {
       getLogger().error(`Error getAll requests: ${error.message}`);
-      throw new AppError('Database error while retrieving requests', 500);
+      throw new AppError(
+        error.message || 'Database error while retrieving requests',
+        error.statusCode || 500,
+      );
     }
   }
 

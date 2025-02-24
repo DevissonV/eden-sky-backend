@@ -63,6 +63,7 @@
 ┃ ┃ ┃ ┣ 📂services
 ┃ ┃ ┃ ┃ ┗ 📜request-service.js
 ┃ ┃ ┃ ┗ 📂validations
+┃ ┃ ┃   ┣ 📜request-criteria-validation.js
 ┃ ┃ ┃   ┗ 📜request-validation.js
 ┃ ┃ ┗ 📂users
 ┃ ┃   ┣ 📂api
