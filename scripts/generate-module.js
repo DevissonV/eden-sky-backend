@@ -22,12 +22,16 @@ const folders = [
   'services',
   'validations',
 ];
-const testFolder = path.join('tests', moduleName);
+const testFolder = `tests/${moduleName}`;
 
 if (!fs.existsSync('src/features')) {
   fs.mkdirSync('src/features', { recursive: true });
 }
-if (!fs.existsSync('tests')) fs.mkdirSync('tests', { recursive: true });
+
+if (!fs.existsSync(testFolder)) {
+  fs.mkdirSync(testFolder, { recursive: true });
+  console.log(`📂 Created folder: ${testFolder}`);
+}
 
 folders.forEach((folder) => {
   const folderPath = path.join(modulePath, folder);
@@ -36,11 +40,6 @@ folders.forEach((folder) => {
     console.log(`📂 Created folder: ${folderPath}`);
   }
 });
-
-if (!fs.existsSync(testFolder)) {
-  fs.mkdirSync(testFolder, { recursive: true });
-  console.log(`📂 Created folder: ${testFolder}`);
-}
 
 const timestamp = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14);
 const migrationFileName = `${timestamp}_create_${moduleName}_table.js`;
@@ -280,5 +279,28 @@ Object.entries(files).forEach(([filePath, content]) => {
     console.log(`📄 Created file: ${fullPath}`);
   }
 });
+
+const testFilePath = path.join(testFolder, `${moduleName}.spec.js`);
+if (!fs.existsSync(testFilePath)) {
+  fs.writeFileSync(
+    testFilePath,
+    `import app from '../../src/server.js';
+import request from 'supertest';
+
+describe('${capitalize(moduleName)} API', () => {
+  it('should return 200 for GET /${moduleName}', async () => {
+    const response = await request(app).get('/${moduleName}/');
+    expect(response.status).toBe(200);
+  });
+
+  it('should return 404 for non-existing route', async () => {
+    const response = await request(app).get('/non-existing-route');
+    expect(response.status).toBe(404);
+  });
+});`,
+    'utf8',
+  );
+  console.log(`📄 Created test file: ${testFilePath}`);
+}
 
 console.log(`✅ Module '${moduleName}' generated successfully!`);
