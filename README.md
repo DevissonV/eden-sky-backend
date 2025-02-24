@@ -199,9 +199,9 @@ NOTA: esto solo es un dato informativo para generar nuevas migraciones, pero no 
 Para ejecutar las pruebas de integración (usando Jest y Supertest), utiliza los siguientes comandos:
 
 ```
-npm test auth.spec.js
-npm test employees.spec.js
-npm test request.spec.js
+npm test auth/auth.spec.js
+npm test employees/employees.spec.js
+npm test request/request.spec.js
 ```
 
 Cada comando ejecutará los tests definidos en los archivos especificados. Asegúrate de que las rutas de prueba sean correctas y estén configuradas para el entorno de desarrollo.
