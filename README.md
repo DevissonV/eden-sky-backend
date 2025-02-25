@@ -251,4 +251,7 @@ nameModule
 
 ```
 
-TENER PRESENTE: agregar la nueva ruta creada en: src/routes/api-routes.js
+TENER PRESENTE:
+
+1. Agregar la nueva ruta creada en: src/routes/api-routes.js
+2. Agregar las migraciones del nuevo modulo al diccionario de rutas, variable: directoryMigrations en el archivo: knexfile.js ubicado en la raiz del proyecto
