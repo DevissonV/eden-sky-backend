@@ -169,7 +169,7 @@ export const update${capitalize(singularModuleName)}Dto = (data) => data;
 export const search${capitalize(singularModuleName)}Dto = (data) => data;`,
 
   [`migrations/${migrationFileName}`]: `export const up = async (knex) => {
-  await knex.schema.createTable('${moduleName}s', (table) => {
+  await knex.schema.createTable('${moduleName}', (table) => {
     table.increments('id').primary();
     table.string('name', 50).notNullable();
     table.timestamps(true, true);
@@ -177,7 +177,7 @@ export const search${capitalize(singularModuleName)}Dto = (data) => data;`,
 };
 
 export const down = async (knex) => {
-  await knex.schema.dropTable('${moduleName}s');
+  await knex.schema.dropTable('${moduleName}');
 };`,
 
   [`repositories/${singularModuleName}-repository.js`]: `import BaseRepository from '#core/base/base-repository.js';
@@ -230,7 +230,7 @@ class ${capitalize(singularModuleName)}Service {
     } catch (error) {
       getLogger().error(\`Error getAll ${moduleName}: \${error.message}\`);
       throw new AppError(
-        error.message || 'Database error while retrieving ${singularModuleName}s', 
+        error.message || 'Database error while retrieving ${moduleName}', 
         error.statusCode || 500
       );
     }
