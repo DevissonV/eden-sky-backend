@@ -94,7 +94,7 @@ const files = {
   [`api/${singularModuleName}-routes.js`]: `import { Router } from 'express';
 import { authenticate, authorize } from '#core/middlewares/auth-middleware.js';
 import { envs } from '#core/config/envs.js';
-import ${capitalize(singularModuleName)}Controller from '../controllers/${singularModuleName}-controller.js';
+import ${singularModuleName}Controller from '../controllers/${singularModuleName}-controller.js';
 
 const router = Router();
 
@@ -102,36 +102,36 @@ router.get(
   '/', 
   authenticate, 
   authorize([envs.ROLE_ADMIN]), 
-  ${capitalize(singularModuleName)}Controller.getAll
+  ${singularModuleName}Controller.getAll
 );
 router.get(
   '/:id', 
   authenticate, 
   authorize([envs.ROLE_ADMIN]), 
-  ${capitalize(singularModuleName)}Controller.getById
+  ${singularModuleName}Controller.getById
 );
 router.post(
   '/', 
   authenticate, 
   authorize([envs.ROLE_ADMIN]), 
-  ${capitalize(singularModuleName)}Controller.create
+  ${singularModuleName}Controller.create
 );
 router.patch(
   '/:id', 
   authenticate, 
   authorize([envs.ROLE_ADMIN]), 
-  ${capitalize(singularModuleName)}Controller.update
+  ${singularModuleName}Controller.update
 );
 router.delete(
   '/:id', authenticate, 
   authorize([envs.ROLE_ADMIN]), 
-  ${capitalize(singularModuleName)}Controller.delete
+  ${singularModuleName}Controller.delete
 );
 
 export default router;`,
 
   [`controllers/${singularModuleName}-controller.js`]: `import BaseController from '#core/base/base-controller.js';
-import ${capitalize(singularModuleName)}Service from '../services/${singularModuleName}-service.js';
+import ${singularModuleName}Service from '../services/${singularModuleName}-service.js';
 
 /**
  * Controller for managing ${moduleName}.
@@ -140,7 +140,7 @@ import ${capitalize(singularModuleName)}Service from '../services/${singularModu
  */
 class ${capitalize(singularModuleName)}Controller extends BaseController {
   constructor() {
-    super(${capitalize(singularModuleName)}Service, '${capitalize(moduleName)}');
+    super(${singularModuleName}Service, '${capitalize(moduleName)}');
   }
 }
 
@@ -198,7 +198,7 @@ export default new ${capitalize(singularModuleName)}Repository();`,
   [`services/${singularModuleName}-service.js`]: `import { AppError } from '#core/utils/response/error-handler.js';
 import { getLogger } from '#core/utils/logger/logger.js';
 import GenericCriteria from '#core/filters/criteria/generic-criteria.js';
-import ${capitalize(singularModuleName)}Repository from '../repositories/${singularModuleName}-repository.js';
+import ${singularModuleName}Repository from '../repositories/${singularModuleName}-repository.js';
 import { validate${capitalize(singularModuleName)} } from '../validations/${singularModuleName}-validation.js';
 import { validate${capitalize(singularModuleName)}Criteria } from '../validations/${singularModuleName}-criteria-validation.js';
 import { 
@@ -208,7 +208,7 @@ import {
 } from '../dto/${singularModuleName}-dto.js';
 
 /**
- * Service class for handling employee-related business logic.
+ * Service class for handling ${singularModuleName} business logic.
  * @class ${capitalize(singularModuleName)}Service
  */
 class ${capitalize(singularModuleName)}Service {
@@ -226,7 +226,7 @@ class ${capitalize(singularModuleName)}Service {
         name: { column: 'name', operator: 'like' } 
       });
 
-      return await ${capitalize(singularModuleName)}Repository.getAll(criteria);
+      return await ${singularModuleName}Repository.getAll(criteria);
     } catch (error) {
       getLogger().error(\`Error getAll ${moduleName}: \${error.message}\`);
       throw new AppError(
@@ -243,7 +243,7 @@ class ${capitalize(singularModuleName)}Service {
    */
   async getById(id) {
     try {
-      const ${singularModuleName} = await ${capitalize(singularModuleName)}Repository.getById(id);
+      const ${singularModuleName} = await ${singularModuleName}Repository.getById(id);
       if (!${singularModuleName}) 
         throw new AppError(\`${capitalize(singularModuleName)} with ID \${id} not found\`, 404);
       return ${singularModuleName};
@@ -265,7 +265,7 @@ class ${capitalize(singularModuleName)}Service {
     try {
       validate${capitalize(singularModuleName)}(data);
       const dto = create${capitalize(singularModuleName)}Dto(data);
-      return await ${capitalize(singularModuleName)}Repository.create(dto);
+      return await ${singularModuleName}Repository.create(dto);
     } catch (error) {
       getLogger().error(\`Error create ${singularModuleName}: \${error.message}\`);
       throw new AppError(
@@ -286,7 +286,7 @@ class ${capitalize(singularModuleName)}Service {
       const ${singularModuleName} = await this.getById(id);
       validate${capitalize(singularModuleName)}(data);
       const dto = update${capitalize(singularModuleName)}Dto(data);
-      return await ${capitalize(singularModuleName)}Repository.update(${singularModuleName}.id, dto);
+      return await ${singularModuleName}Repository.update(${singularModuleName}.id, dto);
     } catch (error) {
       getLogger().error(\`Error update ${singularModuleName}: \${error.message}\`);
       throw new AppError(
@@ -304,7 +304,7 @@ class ${capitalize(singularModuleName)}Service {
   async delete(id) {
     try {
       const ${singularModuleName} = await this.getById(id);
-      return await ${capitalize(singularModuleName)}Repository.delete(${singularModuleName}.id);
+      return await ${singularModuleName}Repository.delete(${singularModuleName}.id);
     } catch (error) {
       getLogger().error(\`Error delete ${singularModuleName}: \${error.message}\`);
       throw new AppError(
